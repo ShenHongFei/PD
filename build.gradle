@@ -1,0 +1,94 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core" }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
+        classpath "org.grails.plugins:views-gradle:1.1.6"
+    }
+}
+
+//version "0.0.1"
+group "shf"
+
+apply plugin:"idea"
+//apply plugin:"war"
+apply plugin:"org.grails.grails-web"
+apply plugin:"org.grails.grails-gsp"
+apply plugin:"org.grails.plugins.views-json"
+
+repositories {
+    mavenLocal()
+    maven { url "https://repo.grails.org/grails/core" }
+    jcenter()
+}
+
+dependencies {
+    
+    profile "org.grails.profiles:web"
+
+    
+    //发送邮件
+    compile 'com.sun.mail:javax.mail:+'
+    //ueditor 文件上传
+    compile 'commons-fileupload:commons-fileupload:+'
+    compile files('lib/json.jar')
+    
+    compile 'org.springframework.boot:spring-boot-starter-logging'
+    compile 'org.springframework.boot:spring-boot-autoconfigure'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-tomcat'
+    
+    
+    compile 'org.grails:grails-core'
+    compile "org.grails:grails-dependencies"
+    compile 'org.grails:grails-plugin-url-mappings'
+    compile 'org.grails:grails-plugin-rest'
+    compile "org.grails:grails-plugin-gsp"
+    compile 'org.grails:grails-plugin-codecs'
+    compile 'org.grails:grails-plugin-interceptors'
+    compile 'org.grails:grails-plugin-services'
+    compile 'org.grails:grails-plugin-datasource'
+    compile 'org.grails:grails-plugin-databinding'
+    compile 'org.grails:grails-web-boot'
+    compile 'org.grails:grails-logging'
+    
+    compile 'org.grails.plugins:cache'
+    compile 'org.grails.plugins:async'
+    compile 'org.grails.plugins:events'
+    compile 'org.grails.plugins:hibernate5'
+    compile 'org.grails.plugins:views-json'
+    compile 'org.grails.plugins:views-json-templates'
+    
+    compile 'org.hibernate:hibernate-core:5.1.5.Final'
+    compile 'com.h2database:h2'
+    console 'org.grails:grails-console'
+
+    runtime 'org.apache.tomcat:tomcat-jdbc'
+//    runtime 'org.grails.plugins:external-config-reload:1.4.1'
+    testCompile 'org.grails:grails-plugin-testing'
+    testCompile 'org.grails.plugins:geb'
+    testCompile 'org.grails:grails-datastore-rest-client'
+    testRuntime 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1'
+    testRuntime 'net.sourceforge.htmlunit:htmlunit:2.18'
+}
+
+springBoot {
+    // Enable the creation of a fully
+    // executable archive file.
+    executable = true
+}
+
+bootRun {
+    jvmArgs('-Dspring.output.ansi.enabled=always')
+    jvmArgs('-Dfile.encoding=UTF-8')
+    //noinspection GroovyAssignabilityCheck
+    systemProperties=System.properties
+    addResources = true
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}

@@ -1,0 +1,18 @@
+import pd.MyPage
+
+model{
+    MyPage myPage
+    String template
+}
+
+json{
+    result true
+    page g.render(myPage,[excludes:['content']],{
+        totalPages          myPage.totalPages
+        numberOfElements    myPage.numberOfElements
+        first               myPage.first
+        last                myPage.last
+//        content             tmpl."$template"(myPage.content)
+        content             g.render([template:template,collection:myPage.content])
+    })
+}

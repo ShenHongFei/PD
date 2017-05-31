@@ -1,0 +1,14 @@
+PPPPPP    AAA   PPPPPP  EEEEEEE RRRRRR  
+PP   PP  AAAAA  PP   PP EE      RR   RR 
+PPPPPP  AA   AA PPPPPP  EEEEE   RRRRRR  
+PP      AAAAAAA PP      EE      RR  RR  
+PP      AA   AA PP      EEEEEEE RR   RR 
+
+
+DDDDD   EEEEEEE TTTTTTT EEEEEEE  CCCCC  TTTTTTT 
+DD  DD  EE        TTT   EE      CC    C   TTT   
+DD   DD EEEEE     TTT   EEEEE   CC        TTT   
+DD   DD EE        TTT   EE      CC    C   TTT   
+DDDDDD  EEEEEEE   TTT   EEEEEEE  CCCCC    TTT   
+
+

@@ -1,0 +1,7 @@
+import pd.Student
+
+model{
+    Student user
+}
+
+json g.render(user,[excludes: ['password','cookieId','uuid']])

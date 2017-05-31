@@ -1,0 +1,10 @@
+import pd.Student
+
+model{
+    Student user
+}
+
+json{
+    result true
+    user tmpl.'/user/details'(user:user)
+}

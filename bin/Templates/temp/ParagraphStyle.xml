@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ParagraphStyle>
+  <ParagraphText name="段落正文" />
+  <spErroInfo name="特殊错误信息">
+    <Text>该标题段后间距错误,应为0：{5  第五章题目（黑体，小三，1.5倍行距，段后1行）}</Text>
+    <Text>该标题字体错误,应为黑体：{附录A  附录内容名称}</Text>
+    <Text>此段落段前间距错误，应为段前0行：{2.3.1  公式的格式示例  “(2.1)”}</Text>
+    <Text>此段落段后间距错误，应为段后0行：{2.3.1  公式的格式示例  “(2.1)”}</Text>
+    <Text>此段落缩进错误，应为首行缩进2字：{2.3.1  公式的格式示例  “其中，μR和μS分别······”}</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------正文-----------------</Text>
+  </partName>
+</ParagraphStyle>

@@ -1,0 +1,19 @@
+import org.springframework.validation.Errors
+
+model {
+    Errors errors
+    String message
+}
+
+json{
+    result false
+    message message
+    if(errors?.hasErrors()){
+        errorFields errors.fieldErrors.collect{
+            it.field
+        }
+        errorMessages errors.allErrors.collect{
+            messageSource.getMessage it,Locale.CHINA
+        }
+    }
+}

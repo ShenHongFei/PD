@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TableStyle>
+  <spErroInfo name="特殊错误信息" />
+  <partName name="提示名称">
+    <Text>-----------------表-----------------</Text>
+  </partName>
+</TableStyle>

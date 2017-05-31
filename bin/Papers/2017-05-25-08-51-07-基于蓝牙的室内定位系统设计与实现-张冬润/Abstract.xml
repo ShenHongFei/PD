@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Abstract>
+  <CNAbstractTitle name="中文摘要标题" />
+  <CNAbstractText name="中文摘要正文" />
+  <CNKeyWords name="中文摘要关键词" />
+  <ENAbstractTitle name="英文摘要标题" />
+  <ENAbstractText name="英文摘要正文" />
+  <ENKeyWords name="英文摘要关键词" />
+  <spErroInfo name="特殊错误信息">
+    <Text>中文摘要标题“摘要”两字之间应有4个空格</Text>
+    <Text>英文摘要标题字体错误，应为Times New Roman</Text>
+    <Text>英文摘要正文行距错误，应为多倍行距1.25:{The f······}</Text>
+    <Text>英文摘要正文段前间距错误，应为0行:{The f······}</Text>
+    <Text>英文摘要关键词内容不应加粗:{Write Criterion；Typeset Format；Graduation Project (Thesis)}</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------摘要-----------------</Text>
+  </partName>
+</Abstract>
