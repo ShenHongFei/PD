@@ -102,6 +102,7 @@ environments:
             url: jdbc:h2:file:D:/PD/data/db/PD;AUTO_SERVER=TRUE;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
             dbCreate: update
             username: root
+            password: 4545
             pooled: true
             jmxExport: true
     test:
@@ -110,6 +111,7 @@ environments:
             url: jdbc:h2:file:D:/PD/data/db/PD;AUTO_SERVER=TRUE;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
             dbCreate: update
             username: root
+            password: 4545
             pooled: true
             jmxExport: true
     production:
@@ -118,6 +120,7 @@ environments:
             url: jdbc:h2:file:~/PD/data/db/PD;AUTO_SERVER=TRUE;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
             dbCreate: update
             username: root
+            password: 4545
             pooled: true
             jmxExport: true
             properties:

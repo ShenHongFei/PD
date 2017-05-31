@@ -10,7 +10,9 @@ class Application extends GrailsAutoConfiguration {
     public static File dataDir
     public static File binDir
     public static File paperDir
-    public static File uploadTmpDir
+    public static File reportDir
+    public static File uploadDir
+    public static File detectDir
 
 
     
@@ -19,14 +21,13 @@ class Application extends GrailsAutoConfiguration {
     static{
         projectDir=new File(System.properties['user.dir'] as String)
         println "当前路径： $projectDir.absolutePath"
-        
-        webDir=new File(projectDir,'web')
-    
-        (dataDir=new File(projectDir,'data')).mkdirs()
-        (uploadTmpDir=new File(dataDir,'uploadTmp')).mkdirs()
-        (paperDir=new File(dataDir,'paper')).mkdirs()
-        
         binDir=new File(projectDir,'bin')
+        webDir=new File(projectDir,'web')
+        (dataDir=new File(projectDir,'data')).mkdirs()
+        (uploadDir=new File(dataDir,'upload')).mkdirs()
+        (paperDir=new File(dataDir,'paper')).mkdirs()
+        (detectDir=new File(dataDir,'detect')).mkdirs()
+        (reportDir=new File(dataDir,'report')).mkdirs()
     }
     
     @Override

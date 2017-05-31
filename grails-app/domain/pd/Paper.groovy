@@ -8,39 +8,53 @@ import static pd.Application.paperDir
 
 class Paper {
     
-    
     String name
-    String filename
-    @Transient
-    File file
     Student author
     Date uploadAt
+    Set<Report> reports=[]
+    
+    @Transient
+    //MultipartFile
+    def uploadTmp
+    
+    static constraints = {}
     
     Paper(){
         
     }
     
     Paper(MultipartFile paper,Student author){
-        paper.transferTo(new File(paperDir,"$author.sid/$paper.originalFilename"))
-        this.filename=filename
-        this.name=filename-'.docx'
+        name=paper.originalFilename-'.docx'
+        uploadTmp=paper
         this.author=author
-        this.file=new File(paperDir,)
+        uploadAt=new Date()
     }
     
     
-    def getPath(){
+/*    def getPath(){
         "$author.sid/$filename"
     }
     def getFile(){
         new File(App,path)
-    }
-
-
-    static constraints = {
+    }*/
+    
+    def getFilename(){
+        "${name}.docx"
     }
     
-    def beforeCreate(){
-        uploadAt=new Date()
+    
+    def afterInsert(){
+        uploadTmp.transferTo((this as File).with{
+            parentFile.mkdirs()
+            it
+        })
+    }
+    
+    def asType(Class type){
+        if(type==File){
+            return new File(paperDir,"$id/$filename")
+        }else{
+            return super.asType(type)
+        }
     }
 }

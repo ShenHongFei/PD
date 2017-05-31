@@ -194,64 +194,59 @@ function uploadAndDetectPaper() {
     var show=setInterval(function(){
         $.ajax({
             type:'get',
-            url:'deadline',
+            url:'paper/status',
             success:function(msg){
-                if(msg==1){
+                switch(msg){
+                    case 'FINISHED':{
+                        $('#progress p').html('100% Complete!');
+                        $('#progress').css('width','100%');
+                        //延时1s
+                        setTimeout(function(){
+                            $('#progress,#progresser').addClass('collapse');
+                            $('#progress p').html('10%');
+                            $('#progress').css('width','10%');
+                        },1000);
+                        setTimeout(function(){
+                            $('#checkreport-btn').show();
+                            countPaper();
+                        },1500);
 
-                    $('#progress p').html('100% Complete!');
-                    $('#progress').css('width','100%');
-                    //延时1s
-                    setTimeout(function(){
-                        $('#progress,#progresser').addClass('collapse');
-                        $('#progress p').html('10%');
-                        $('#progress').css('width','10%');
-                    },1000);
-                    setTimeout(function(){
-                        $('#checkreport-btn').show();
-                        countPaper();
-                    },1500);
-
-                    clearInterval(show);
-                }else{
-                    $('#checkreport-btn').hide();
-                    if(fileSize<26214400){
-                        if(delta<90){
-                            $('#progress p').html(delta+'%');
-                            $('#progress').css('width',delta+'%');
-                            delta=delta+10;
-                        }else if(delta<99){
-                            delta=delta+1;
-                            $('#progress p').html(delta+'%');
-                            $('#progress').css('width',delta+'%');
-                        }
+                        clearInterval(show);
+                        break;
                     }
-                    else{
-                        if(delta<90){
-                            $('#progress p').html(delta+'%');
-                            $('#progress').css('width',delta+'%');
-                            delta=delta+5;
-                        }else if(delta<99){
-                            delta=delta+1;
-                            $('#progress p').html(delta+'%');
-                            $('#progress').css('width',delta+'%');
-                        }
+                    case 'ERROR':{
+                        break;
                     }
-
-
+                    case 'RUNNING':{
+                        $('#checkreport-btn').hide();
+                        if(fileSize<26214400){
+                            if(delta<90){
+                                $('#progress p').html(delta+'%');
+                                $('#progress').css('width',delta+'%');
+                                delta=delta+10;
+                            }else if(delta<99){
+                                delta=delta+1;
+                                $('#progress p').html(delta+'%');
+                                $('#progress').css('width',delta+'%');
+                            }
+                        }
+                        break;
+                    }
                 }
             },
             error:function(){
+                clearInterval(show);
                 alertWarning('系统出错，请重新上传！');
             },
         });
-    },1000);
+    },2000);
 
-    setTimeout("deletefilename()","1500");
+    setTimeout(function() {
+        $(":file").filestyle('clear');
+    },1500);
 }
 
-function deletefilename() {
-  $(":file").filestyle('clear');
-}
+
 
 function checkreport() {
   $.ajaxSetup({ cache: false }); 

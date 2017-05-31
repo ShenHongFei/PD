@@ -28,7 +28,7 @@ repositories {
 dependencies {
     
     profile "org.grails.profiles:web"
-
+    profile 'org.grails.profiles:rest-api'
     
     //发送邮件
     compile 'com.sun.mail:javax.mail:+'

@@ -1,0 +1,16 @@
+未经处理的异常:  System.ArgumentOutOfRangeException: 索引超出范围。必须为非负值并小于集合大小。
+参数名: index
+   在 System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   在 System.Collections.Generic.List`1.get_Item(Int32 index)
+   在 PaperFormatDetection.Tool.NumTbl(List`1 chapter, List`1 table, Int32 location) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\Tool.cs:行号 258
+   在 PaperFormatDetection.TableStyle.GetTextXml(WordprocessingDocument doc, String xmlFullPath) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\TableStyle.cs:行号 74
+   在 PaperFormatDetection.TableStyle.getStyle(WordprocessingDocument doc, String fileName) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\TableStyle.cs:行号 18
+   在 PaperFormatDetection.StyleExtractor.getModulesStyle(String filePath, String folderPath) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\StyleExtractor.cs:行号 73
+   在 PaperFormatDetection.StyleExtractor.getPaperStyle(String templatePath, String paperPath) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\StyleExtractor.cs:行号 50
+   在 PaperFormatDetection.StyleExtractor.extractStyle(String templatePath, String paperPath) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\StyleExtractor.cs:行号 12
+   在 PaperFormatDetection.PaperDetection.extractStyle(String templatePath, String paperPath) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\PaperDetection.cs:行号 21
+   在 PaperFormatDetection.PaperDetection.detect(String templatePath, String paperPath) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\PaperDetection.cs:行号 12
+   在 PaperFormatDetection.Program.Main(String[] args) 位置 c:\Users\thinkpad\Desktop\单机版V10.3\PaperFormatDetection\PaperFormatDetection\Program.cs:行号 30
+
+论文模板格式提取开始！
+待测论文格式提取开始！
