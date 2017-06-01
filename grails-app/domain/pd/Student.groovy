@@ -1,5 +1,8 @@
 package pd
 
+import javax.persistence.FetchType
+import javax.persistence.OneToMany
+
 class Student{
     
     String sid //学号
@@ -8,6 +11,7 @@ class Student{
     String clazz
     String name
     String gender
+    
     List<Paper> papers=[]
 
     
@@ -23,9 +27,10 @@ class Student{
         email email:true
     }
     static hasMany = [papers:Paper]
-    static mapping = {
+    static mapping={
         papers lazy:false
     }
+    
 
     
     @Override

@@ -7,33 +7,30 @@ function loadfunc() {
     buttonText: '浏览'
   });
   loadinfo();
-  listReport();
+  listPaper();
   setInterval('countPaper()',15000);
 }
 
 function loadinfo() {
-  $.ajaxSetup({ cache: false }); 
-  $.ajax({
-    url: 'personal',
-    success: function(data) {
-      var json = eval("(" + data + ")");
-      var datas = json.personal;
-      if (data.stat == 0) {
-        return;
-      } else {
-        $("#st_name").html(datas[0]);
-        $("#st_id").html(datas[1]);
-        $("#st_class").html(datas[2]);
-        if (datas[3] == 'man') {
-          $("#st_sex").html('男');
-        } else {
-          $("#st_sex").html('女');
+    $.ajaxSetup({cache:false});
+    $.ajax({
+        url:'user/info',
+        success:function(model){
+            if(!model.result){
+                console.log(model.message)
+                return
+            }
+            let student=model.student;
+            $("#st_name").html(student.name);
+            $("#st_id").html(student.sid);
+            $("#st_class").html(student.clazz);
+            if(student.gender=='MAN'){
+                $("#st_sex").html('男');
+            }else{
+                $("#st_sex").html('女');
+            }
         }
-
-
-      }
-    }
-  });
+    });
 }
 
 function showPaperCount(){
@@ -71,14 +68,17 @@ fileSize = target.files[0].size;
 return fileSize;
 }
 
-function listReport() {
+function listPaper() {
     $.ajaxSetup({cache:false});
     $.ajax({
         url:'paper/list',
         dataType:'json',
     success: function(model) {
-        if(!model.result) return
-        var historyTable = $("#historytable");
+        if(!model.result){
+            console.log(model.message)
+            return
+        }
+        let historyTable = $("#historytable");
         historyTable.html('');
         model.papers.forEach(function(it){
             let tr=$("<tr><tr/>")
@@ -91,64 +91,54 @@ function listReport() {
       }})
 }
 
+
 function viewReport(paperId) {
-  var upData = {};
-  upData['pId'] = paperId;
-  $.ajaxSetup({ cache: false }); 
-  $.ajax({
-    url: 'paper/view-report',
-    data: upData,
-    success: function(data) {
-      var json = eval("(" + data + ")");
-      var datas = json.report;
-      if (data.stat == 0) {
-        return;
-      } else {
-        $("#report-text").empty();
-          $('#toolitip1').remove();
-          $('#toolitip2').remove();
-        $('#download1').remove();
-        /*$('#download2').remove();*/
-        var n = datas.length;
-        $("#report-text").append("<h3 style='text-align:center;'>" + datas[1]+ "</h3>");
-        $("#report-text").append("<h5 style='text-align:right;'>时间："+ datas[2]+ "</h5>");
-        if (n >= 2) {
-          for (var i = 3; i < n; i++) {
-            if(datas[i]=='封面:'||datas[i]=='摘要:'||datas[i]=='正文:'||datas[i]=='页眉页脚:'||datas[i]=='图:'||datas[i]=='表:'||datas[i]=='目录:')
-            {
-              $("#report-text").append("<span style='color:red;'>"+datas[i]+"<span><br/>");
+    $.ajaxSetup({ cache: false });
+    let data=arguments.length>0?{id:paperId}:null
+    $.ajax({
+        url: 'paper/view-report',
+        data: data,
+        success: function(model) {
+            var datas = model;
+            if(!model.result){
+                alertWarning(model.message)
+                return
             }
-            else
-            $("#report-text").append("<span>"+datas[i]+"<span>"+"<br/>");
-          }
+            $("#report-text").empty();
+            $('#toolitip1').remove();
+            $('#toolitip2').remove();
+            $('#download1').remove();
+            // $('#download2').remove();
+            var n = datas.length;
+            $('#report-text').html('<h3 style="text-align:center;">《'+model.report.name+'》</h3>'+'<h5 style="text-align:right;">时间：'+model.report.createdAt+'</h5>'+model.report.content)
+
+            $("#report").append("<a id='download1' href='" + model.report.link + "' class='btn btn-lg btn-primary btn-block' style='margin-top: -17px; width: 90px; margin-left: 843px; display: inline-block !important; font-size: 14px;'>检测报告</a>");
+            /*$("#report").append("<a id='download2' href='download?paper_name=" + encodeURI(encodeURI(datas[0])) + "' class='btn btn-lg btn-primary btn-block' style='margin-top: 10px; width: 90px; margin-left: 15px; display: inline-block !important; font-size: 14px;'>自动修正</a>");*/
+            $('#report').append('<span id="toolitip1" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -47px -114px;">下载论文检测报告</span>')//-220px
+            $('#report').append('<span id="toolitip2" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -65px -113px;">下载本论文的格式自动修正版本（本功能尚处于测试阶段，对修正结果不做任何承诺）</span>')
+            /*$('#download2').mouseenter(function(){
+             $('#toolitip2').css('visibility','visible')
+             })
+             $('#download2').mouseleave(function(){
+             $('#toolitip2').css('visibility','hidden')
+             })*/
+            $('#download1').mouseenter(function(){
+                $('#toolitip1').css('visibility','visible')
+            })
+            $('#download1').mouseleave(function(){
+                $('#toolitip1').css('visibility','hidden')
+            })
+            $('#ptab a:eq(2)').tab('show');
         }
-          $("#report").append("<a id='download1' href='download?paper_name=report" + encodeURI(encodeURI(datas[0])) + "' class='btn btn-lg btn-primary btn-block' style='margin-top: -17px; width: 90px; margin-left: 843px; display: inline-block !important; font-size: 14px;'>检测报告</a>");//739,843
-          /*$("#report").append("<a id='download2' href='download?paper_name=" + encodeURI(encodeURI(datas[0])) + "' class='btn btn-lg btn-primary btn-block' style='margin-top: 10px; width: 90px; margin-left: 15px; display: inline-block !important; font-size: 14px;'>自动修正</a>");*/
-          $('#report').append('<span id="toolitip1" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -47px -114px;">下载论文检测报告</span>')
-          $('#report').append('<span id="toolitip2" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -65px -113px;">下载本论文的格式自动修正版本（本功能尚处于测试阶段，对修正结果不做任何承诺）</span>')
-          /*$('#download2').mouseenter(function(){
-              $('#toolitip2').css('visibility','visible')
-          })
-          $('#download2').mouseleave(function(){
-              $('#toolitip2').css('visibility','hidden')
-          })*/
-          $('#download1').mouseenter(function(){
-              $('#toolitip1').css('visibility','visible')
-          })
-          $('#download1').mouseleave(function(){
-              $('#toolitip1').css('visibility','hidden')
-          })
-      }
-      $('#ptab a:eq(2)').tab('show');
-    }
-  });
+    });
 }
+
 
 function uploadAndDetectPaper() {
     $('#view-report-btn').hide();
     $.ajaxSetup({cache:false});
-    listReport();
-    setTimeout("listReport()","2000");
+    listPaper();
+    setTimeout("listPaper()","2000");
     var docname=$("#input01").val();
     var docnames=docname.split('.');
     if(docname==""){
@@ -240,45 +230,6 @@ function uploadAndDetectPaper() {
 }
 
 
-
-function viewReport() {
-  $.ajaxSetup({ cache: false }); 
-  $.ajax({
-    url: 'paper/view-report',
-    success: function(model) {
-      var datas = model;
-      if(!model.result){
-          alertWarning(model.message)
-          return
-      }
-            $("#report-text").empty();
-            $('#toolitip1').remove();
-            $('#toolitip2').remove();
-            $('#download1').remove();
-            // $('#download2').remove();
-            var n = datas.length;
-            $('#report-text').html(model.report.content)
-        
-            $("#report").append("<a id='download1' href='download?paper_name=report" + encodeURI(encodeURI(report[0])) + "' class='btn btn-lg btn-primary btn-block' style='margin-top: -17px; width: 90px; margin-left: 843px; display: inline-block !important; font-size: 14px;'>检测报告</a>");
-            /*$("#report").append("<a id='download2' href='download?paper_name=" + encodeURI(encodeURI(datas[0])) + "' class='btn btn-lg btn-primary btn-block' style='margin-top: 10px; width: 90px; margin-left: 15px; display: inline-block !important; font-size: 14px;'>自动修正</a>");*/
-            $('#report').append('<span id="toolitip1" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -47px -114px;">下载论文检测报告</span>')//-220px
-            $('#report').append('<span id="toolitip2" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -65px -113px;">下载本论文的格式自动修正版本（本功能尚处于测试阶段，对修正结果不做任何承诺）</span>')
-            /*$('#download2').mouseenter(function(){
-             $('#toolitip2').css('visibility','visible')
-             })
-             $('#download2').mouseleave(function(){
-             $('#toolitip2').css('visibility','hidden')
-             })*/
-            $('#download1').mouseenter(function(){
-                $('#toolitip1').css('visibility','visible')
-            })
-            $('#download1').mouseleave(function(){
-                $('#toolitip1').css('visibility','hidden')
-            })
-    }
-  });
-}
-
 //注销登录
 function logout(){
   $.ajax({
@@ -302,8 +253,6 @@ $(document).ready(function() {
     }
 
   });
-
-
 
   $('#pwd2').change(function() {
     if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20) {
@@ -340,7 +289,6 @@ $(document).ready(function() {
     }
   });
 
-
   $('#pwd3').change(function() {
     if ($('#pwd3').val() != $('#pwd2').val()) {
       $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
@@ -349,6 +297,7 @@ $(document).ready(function() {
       $('#pwd3').css('border-color', 'rgb(200,200,200)');
     }
   });
+  
   $('#queren').click(function() {
     if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20 || flag == 1) {
       $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');

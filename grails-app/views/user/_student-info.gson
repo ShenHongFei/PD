@@ -1,0 +1,7 @@
+import pd.Student
+
+model{
+    Student student
+}
+
+json g.render(student,[includes: ['id','email','sid','role','name','gender','registerTime','phoneNumber','clazz']])

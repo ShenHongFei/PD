@@ -1,15 +1,19 @@
 import pd.Application
 import pd.Report
 
+import java.text.SimpleDateFormat
+
 model{
     Report report
 }
 
 StringBuffer stringBuffer=new StringBuffer()
 (report as File).text.eachLine{stringBuffer<<(it+'<br>')}
+def timeFormat=new SimpleDateFormat('MM-dd-a-h-mm',Locale.CHINA)
 
-json g.render(report,[includes: ['id','name','createdAt']],{
-    paper tmpl.'/paper/info'(report.paper)
-    content(stringBuffer.toString())
+json g.render(report,[includes: ['id','name']],{
+    createdAt timeFormat.format(report.createdAt)
     'link' "data/${Application.dataDir.toPath().relativize((report as File).toPath()).toString().replaceAll('\\\\','/')}"
+    content(stringBuffer.toString())
+    paper tmpl.'/paper/info'(report.paper)
 })

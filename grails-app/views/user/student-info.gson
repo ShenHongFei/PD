@@ -1,0 +1,14 @@
+import pd.Student
+
+model{
+    Student student
+}
+
+json{
+    result true
+    student tmpl.'student-info'(student:student)
+}
+
+
+//    student g.render(template:'info',model:[student:student])
+//json g.render(student,[includes: ['email','sid','role','password','name','gender','registerTime','phoneNumber']])

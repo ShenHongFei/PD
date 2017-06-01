@@ -1,7 +1,13 @@
 import pd.Paper
 
+import java.text.SimpleDateFormat
+
 model{
     Paper paper
 }
 
-json g.render(paper,[includes:['name','uploadAt']])
+def timeFormat=new SimpleDateFormat('MM-dd-a-h-mm',Locale.CHINA)
+
+json g.render(paper,[includes:['name','uploadAt']]){
+    uploadAt timeFormat.format(paper.uploadAt)
+}

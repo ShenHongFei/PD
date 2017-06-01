@@ -1,6 +1,19 @@
 package pd
 
+import org.hibernate.Hibernate
+import org.hibernate.Session
 import org.springframework.web.multipart.MultipartFile
+
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+import static pd.Application.binDir
+import static pd.Application.binDir
+import static pd.Application.binDir
+import static pd.Application.binDir
+import static pd.Application.detectDir
+import static pd.DetectorThread.Status.ERROR
+import static pd.DetectorThread.Status.FINISHED
 
 class PaperController {
     
@@ -48,8 +61,10 @@ class PaperController {
     
     
     def list(){
-        def papers = session.student?.papers
-        if(!papers||papers.empty) return render(view:'/failure',model:[message:'未登录或无检测报告'])
+        def student = session.student
+        if(!student) return render(view:'/failure',model:[message:'用户未登录'])
+        def papers = student.papers
+        if(!papers||papers.empty) return render(view:'/failure',model:[message:'无检测报告'])
         render(view:'list',model:[papers:papers])
     }
     

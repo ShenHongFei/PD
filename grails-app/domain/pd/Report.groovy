@@ -32,7 +32,7 @@ class Report implements Comparable<Report>{
         this.paper=paper
         this.reportTmpFile=reportTmpFile
         createdAt=new Date()
-        this.name="$paper.name-检测报告-${timeFormat.format(createdAt)}"
+        this.name="$paper.name-${timeFormat.format(createdAt)}-检测报告"
     }
     
     

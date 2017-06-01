@@ -80,11 +80,11 @@ class UserController {
         }
         //再尝试学生登录
         def student = Student.find{sid==params.username}
+        println student.papers
         if(!student) return render(0)
         if(student.password!=params.password) return render(2)
         student.lastIp=request.remoteAddr
         session.student=student
-        student.save()
         render(1)
     }
     
@@ -94,6 +94,10 @@ class UserController {
         redirect(uri:'/login.html')
     }
     
+    //当前用户的信息
+    def info(){
+        render view:'student-info',model:[student:session.student]
+    }
     
 /*    def logout(){
         def student = session.student
@@ -107,10 +111,7 @@ class UserController {
     //params email,password,autologin
     
     
-    //当前用户的信息
-    def info(){
-         render view:'info',model:[student:session.student] 
-    }
+    
     
     //params oldPassword [newPassword] [newUsername]
     def updateInfo(){

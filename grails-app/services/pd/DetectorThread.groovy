@@ -1,6 +1,7 @@
 package pd
 
 import grails.gorm.transactions.Transactional
+import org.hibernate.Hibernate
 
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
@@ -47,10 +48,12 @@ class DetectorThread extends Thread{
             println ps.inputStream.getText('gbk')
             def targetReport = new File(binDir,"Papers/${tmp.name-'.docx'}/report.txt")
             report = new Report(paper,targetReport)
-            paper.report=report
+            //这里的student.paper 是被代理的，而且是懒加载，需要重新初始化，才能正常访问papers
             student.papers<<paper
-            report.save(flush:true,failOnError:true)
+            report.save()
+            paper.report=report
             status=FINISHED
+            
             targetReport.parentFile.deleteDir()
             tmp.delete()
             println "论文检测正常结束，耗时：${(System.currentTimeMillis()-start)/1000}s"
