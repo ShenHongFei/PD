@@ -152,7 +152,7 @@ function updatereport(pId) {
 }
 
 function uploadAndDetectPaper() {
-    $('#checkreport-btn').hide();
+    $('#view-report-btn').hide();
     $.ajaxSetup({cache:false});
     updatehistory();
     setTimeout("updatehistory()","2000");
@@ -160,12 +160,12 @@ function uploadAndDetectPaper() {
     var docnames=docname.split('.');
     if(docname==""){
         alertWarning("没有选择论文，请重新上传！");
-        $('#checkreport-btn').hide();
+        $('#view-report-btn').hide();
         return;
 
     }else if(docnames[docnames.length-1]!='docx'){
         alertWarning('论文格式不是.docx，请重新上传！');
-        $('#checkreport-btn').hide();
+        $('#view-report-btn').hide();
         return;
     }
 
@@ -207,7 +207,7 @@ function uploadAndDetectPaper() {
                             $('#progress').css('width','10%');
                         },1000);
                         setTimeout(function(){
-                            $('#checkreport-btn').show();
+                            $('#view-report-btn').show();
                             countPaper();
                         },1500);
 
@@ -218,7 +218,7 @@ function uploadAndDetectPaper() {
                         break;
                     }
                     case 'RUNNING':{
-                        $('#checkreport-btn').hide();
+                        $('#view-report-btn').hide();
                         if(fileSize<26214400){
                             if(delta<90){
                                 $('#progress p').html(delta+'%');
@@ -248,7 +248,7 @@ function uploadAndDetectPaper() {
 
 
 
-function checkreport() {
+function viewReport() {
   $.ajaxSetup({ cache: false }); 
   $.ajax({
     url: 'report_new',

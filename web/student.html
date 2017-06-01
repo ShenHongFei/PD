@@ -197,7 +197,7 @@
                       </div>
                       <span id="pingbi" title="加快检测速度" style="float:right;line-height: 35px;font-size: 15px;"><input type="checkbox" name="">&nbsp&nbsp 屏蔽论文中的代码部分</span>
                       <button type="submit" class="btn btn-success" onclick="uploadAndDetectPaper();" style="float:left;">论文上传</button>
-                      <button class="btn btn-info" id="checkreport-btn" onclick="checkreport()" style="float:right;display: none;">查看检测报告</button>
+                      <button class="btn btn-info" id="view-report-btn" onclick="viewReport()" style="float:right;display: none;">查看检测报告</button>
                   </div>
               </form>
           </div>
@@ -295,8 +295,8 @@ $(document).ready(function() {
 
 
 
-  $('#checkreport-btn').click(function(){
-  	$('#checkreport-btn').hide();
+  $('#view-report-btn').click(function(){
+  	$('#view-report-btn').hide();
   	setTimeout(function(){$('#pingbi').removeClass('collapse');},1000);
   });
 
