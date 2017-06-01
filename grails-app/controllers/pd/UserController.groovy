@@ -35,10 +35,11 @@ class UserController {
     
     def templateEngine=new SimpleTemplateEngine()
     
+    //1=成功 -1=失败
     @SuppressWarnings("UnnecessaryQualifiedReference")
     def register(){
         Student student=new Student(name:params.name,sid:params.username,clazz:params.grade,password:params.password,gender:params.sex)
-        if(!student.validate()) return render(-1)
+        if(!student.validate()) return redirect('')
         student.with{
             uuid=UUID.randomUUID().toString()
             lastIp=request.remoteAddr
@@ -69,13 +70,13 @@ class UserController {
         def teacher = Teacher.find{tid==params.username&&password==params.password}
         if(teacher){
             session.teacher=teacher
-            return render(-1)
-        } 
+            return redirect(uri:'/teacher.html')
+        }
         if(params.username=='204099999'&&params.password=='123456'){
             if(!Teacher.count) new Teacher(tid:'204099999',name:'赖晓晨',password:'123456').save()
             session.teacher=teacher
             session.student=new Student(sid:'204099999',name:'赖晓晨')
-            return render(-1)
+            return redirect(uri:'/teacher.html')
         }
         //再尝试学生登录
         def student = Student.find{sid==params.username}

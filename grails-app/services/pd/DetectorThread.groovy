@@ -15,6 +15,7 @@ class DetectorThread extends Thread{
     
     Paper  paper
     Report report
+    Student student
     
     Process ps
     // 0=完成 -1=出错 1=正在检测
@@ -23,8 +24,9 @@ class DetectorThread extends Thread{
         ERROR,FINISHED,RUNNING
     }
     DetectorThread(){}
-    DetectorThread(Paper paper){
+    DetectorThread(Student student,Paper paper){
         this.paper=paper
+        this.student=student
     }
     
     @Override
@@ -32,9 +34,10 @@ class DetectorThread extends Thread{
         status=RUNNING
         def original=paper as File
         def tmp=new File(detectDir,original.name.replaceAll(' ','-')) //论文检测程序不支持带空格的文件名
+        def start=System.currentTimeMillis()
         Files.copy(original.toPath(),tmp.toPath(),StandardCopyOption.REPLACE_EXISTING)
         
-        String command="$binDir/PaperFormatDetection.exe $binDir/temp.docx $tmp false"
+        String command="$binDir\\PaperFormatDetection.exe $binDir\\temp.docx $tmp false"
         println "论文检测命令行:\n$command"
         ps=command.execute(null as List,binDir)
         ps.waitForOrKill(25*1000)
@@ -44,10 +47,13 @@ class DetectorThread extends Thread{
             println ps.inputStream.getText('gbk')
             def targetReport = new File(binDir,"Papers/${tmp.name-'.docx'}/report.txt")
             report = new Report(paper,targetReport)
-            report.save(flush:true)
-            paper.reports<<report
+            paper.report=report
+            student.papers<<paper
+            report.save(flush:true,failOnError:true)
             status=FINISHED
             targetReport.parentFile.deleteDir()
+            tmp.delete()
+            println "论文检测正常结束，耗时：${(System.currentTimeMillis()-start)/1000}s"
         }else{
             status=ERROR
             try{

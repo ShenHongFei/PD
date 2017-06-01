@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import static pd.Application.reportDir
 
 
-class Report {
+class Report implements Comparable<Report>{
     
     String name
     Paper paper
@@ -18,7 +18,14 @@ class Report {
     @Transient
     File reportTmpFile
     
-    static constraints = {}
+    static belongsTo = [paper:Paper]
+    static mapping = {
+        paper lazy: false
+    }
+    
+/*    static constraints = {}
+    
+    */
     
     Report(){}
     Report(Paper paper,File reportTmpFile){
@@ -37,5 +44,9 @@ class Report {
         if(type==File){
             return new File(reportDir,"$id/${name}.txt")
         }
+    }
+    
+    int compareTo(Report another){
+        createdAt<=>another.createdAt
     }
 }

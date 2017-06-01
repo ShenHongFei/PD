@@ -1,7 +1,5 @@
 package pd
 
-import static Student.GUEST
-
 class AuthorizationInterceptor {
     
     def sessionFactory
@@ -11,6 +9,8 @@ class AuthorizationInterceptor {
     }
 
     boolean before() {
+        println "原始请求： ${request.requestURI-request.contextPath}"
+        
         /*def refreshCookie=false
         //首次访问网站
         if(!session.user){

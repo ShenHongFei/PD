@@ -1,0 +1,10 @@
+import pd.Paper
+
+model{
+    List<Paper> papers
+}
+
+json{
+    result true
+    papers g.render(template:'/paper/info',collection:papers)
+}

@@ -1,0 +1,7 @@
+import pd.Paper
+
+model{
+    Paper paper
+}
+
+json g.render(paper,[includes:['name','uploadAt']])

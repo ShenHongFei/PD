@@ -1,0 +1,15 @@
+import pd.Application
+import pd.Report
+
+model{
+    Report report
+}
+
+StringBuffer stringBuffer=new StringBuffer()
+(report as File).text.eachLine{stringBuffer<<(it+'<br>')}
+
+json g.render(report,[includes: ['id','name','createdAt']],{
+    paper tmpl.'/paper/info'(report.paper)
+    content(stringBuffer.toString())
+    'link' "data/${Application.dataDir.toPath().relativize((report as File).toPath()).toString().replaceAll('\\\\','/')}"
+})

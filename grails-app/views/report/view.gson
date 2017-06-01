@@ -1,0 +1,10 @@
+import pd.Report
+
+model{
+    Report report
+}
+
+json{
+    result true
+    report tmpl.'/report/details'(report)
+}

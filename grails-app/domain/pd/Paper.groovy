@@ -1,23 +1,33 @@
 package pd
 
+import org.apache.commons.collections.comparators.ComparableComparator
 import org.springframework.web.multipart.MultipartFile
 
 import javax.persistence.Transient
+import java.text.SimpleDateFormat
 
 import static pd.Application.paperDir
 
-class Paper {
+class Paper implements Comparable<Paper>{
     
     String name
     Student author
     Date uploadAt
-    Set<Report> reports=[]
+    Report report
     
     @Transient
     //MultipartFile
     def uploadTmp
     
-    static constraints = {}
+    public static def timeFormat=new SimpleDateFormat('MM-dd-a-h-mm',Locale.CHINA)
+
+    static mappings={
+        author lazy:false
+    }
+    
+/*    static constraints = {}*/
+    
+   
     
     Paper(){
         
@@ -56,5 +66,9 @@ class Paper {
         }else{
             return super.asType(type)
         }
+    }
+    
+    int compareTo(Paper another){
+        uploadAt<=>uploadAt
     }
 }

@@ -10,7 +10,7 @@ class Teacher {
 
     static constraints = {
         password size:1..20
-        sid matches:/[0-9]{1,20}/,unique:true
+        tid matches:/[0-9]{1,20}/,unique:true
         email email:true
     }
     

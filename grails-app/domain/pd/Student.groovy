@@ -8,6 +8,8 @@ class Student{
     String clazz
     String name
     String gender
+    List<Paper> papers=[]
+
     
     
     String  cookieId //**
@@ -15,12 +17,16 @@ class Student{
     Boolean autologin = false //*
     String  uuid //**
     
-    
     static constraints = {
         password size:1..20
         sid matches:/[0-9]{1,20}/,unique:true
         email email:true
     }
+    static hasMany = [papers:Paper]
+    static mapping = {
+        papers lazy:false
+    }
+
     
     @Override
     String toString(){ "{id: $id, sid:$sid, password:$password" }
