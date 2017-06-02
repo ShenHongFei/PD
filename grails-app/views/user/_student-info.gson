@@ -4,4 +4,4 @@ model{
     Student student
 }
 
-json g.render(student,[includes: ['id','email','sid','role','name','gender','registerTime','phoneNumber','clazz']])
+json g.render(student,[includes: ['id','email','sid','role','name','gender','clazz']])

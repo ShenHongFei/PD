@@ -7,12 +7,12 @@ model{
 
 json{
     result true
+    total myPage.numberOfElements
     page g.render(myPage,[excludes:['content']],{
         totalPages          myPage.totalPages
         numberOfElements    myPage.numberOfElements
         first               myPage.first
         last                myPage.last
-//        content             tmpl."$template"(myPage.content)
         content             g.render([template:template,collection:myPage.content])
     })
 }

@@ -7,6 +7,7 @@ import javax.persistence.Transient
 import java.text.SimpleDateFormat
 
 import static pd.Application.paperDir
+import static pd.Application.projectDir
 
 class Paper implements Comparable<Paper>{
     
@@ -19,11 +20,13 @@ class Paper implements Comparable<Paper>{
     //MultipartFile
     def uploadTmp
     
-    public static def timeFormat=new SimpleDateFormat('MM-dd-a-h-mm',Locale.CHINA)
+    
 
-    static mappings={
+    static mapping={
         author lazy:false
+        report lazy:false
     }
+    static fetchMode = [report:'eager']
     
 /*    static constraints = {}*/
     
@@ -69,6 +72,14 @@ class Paper implements Comparable<Paper>{
     }
     
     int compareTo(Paper another){
-        uploadAt<=>uploadAt
+        uploadAt<=>another.uploadAt
+    }
+    
+    def getUploadAtString(){
+        Application.timeFormat.format(uploadAt)
+    }
+    
+    def getDownloadLink(){
+        projectDir.toPath().relativize((this as File).toPath()).toString().replaceAll('\\\\','/')
     }
 }

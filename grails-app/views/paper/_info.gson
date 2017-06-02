@@ -6,8 +6,7 @@ model{
     Paper paper
 }
 
-def timeFormat=new SimpleDateFormat('MM-dd-a-h-mm',Locale.CHINA)
 
 json g.render(paper,[includes:['id','name']],{
-    uploadAt timeFormat.format(paper.uploadAt)
+    uploadAt new SimpleDateFormat('yyyy-MM-dd a h:mm',Locale.CHINA).format(paper.uploadAt)
 })

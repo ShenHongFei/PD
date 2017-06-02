@@ -9,8 +9,20 @@
 var htdata;
 var htdata1;
 //载入页面后执行，一个页面只能有一个window.onload,但是可以有多个$(document).ready();
-window.onload = update;
-
+window.onload = function (){
+    page();
+    page1();
+    countPaper();
+    //时间插件
+    datePickerController.createDatePicker({
+        // Associate the text input to a DD/MM/YYYY date format
+        formElements:{"start":"%Y-%m-%d"}
+    });
+    datePickerController.createDatePicker({
+        // Associate the text input to a DD/MM/YYYY date format
+        formElements:{"start1":"%Y-%m-%d"}
+    });
+}
 
 $(document).ready(function() {
  
@@ -138,9 +150,6 @@ $('#delete1').click(function(){
 
   });
 
-
-
-
   $('#pwd2').bind('change', function() {
     if ($('#pwd2').val() != $('#pwd1').val()) {
       $('#pwd2').popover('show');
@@ -149,9 +158,6 @@ $('#delete1').click(function(){
       $('#pwd2').css('border-color', 'rgb(200,200,200)');
     }
   });
-
-
-
 
   $('#queren').click(function() {
     if ($('#pwd1').val().length < 6 || $('#pwd1').val().length > 20 || flag == 1) {
@@ -188,13 +194,6 @@ $('#delete1').click(function(){
     });
   });
 
-
-
-
-
-
-
-
 //与分页有关的jq
 
 $("#page").on("pageClicked", function(event, data) {
@@ -217,33 +216,28 @@ $("#page").on("pageClicked", function(event, data) {
   updatePaper(start, end);
 });
 
-
-
-
 $("#page1").on("pageClicked", function(event, data) { //分页按钮事件
   $('#check1').attr('checked',false);
   $("#eventLog1").empty();
   var start = data.pageIndex * data.pageSize;
-  var end = (data.pageIndex + 1) * data.pageSize < htdata1.adviceList.length ? (data.pageIndex + 1) * data.pageSize : htdata1.adviceList.length;
+  var end = (data.pageIndex + 1) * data.pageSize < htdata1.page.content.length ? (data.pageIndex + 1) * data.pageSize : htdata1.page.content.length;
   updateAdvice(start, end)
 }).on('jumpClicked', function(event, data) { //跳转按钮点击事件
   $('#check1').attr('checked',false);
   $("#eventLog1").empty();
   var start = data.pageIndex * data.pageSize;
-  var end = (data.pageIndex + 1) * (data.pageSize + 1) < htdata1.adviceList.length ? (data.pageIndex + 1) * data.pageSize : htdata1.adviceList.length;
+  var end = (data.pageIndex + 1) * (data.pageSize + 1) < htdata1.page.content.length ? (data.pageIndex + 1) * data.pageSize : htdata1.page.content.length;
   updateAdvice(start, end)
 }).on('pageSizeChanged', function(event, data) { //页面大小切换事件
   $('#check1').attr('checked',false);
   $("#eventLog1").empty();
   var start = data.pageIndex * data.pageSize;
-  var end = (data.pageIndex + 1) * data.pageSize < htdata1.adviceList.length ? (data.pageIndex + 1) * data.pageSize : htdata1.adviceList.length;
+  var end = (data.pageIndex + 1) * data.pageSize < htdata1.page.content.length ? (data.pageIndex + 1) * data.pageSize : htdata1.page.content.length;
   updateAdvice(start, end)
 });
 
 
 });
-
-
 
 //键盘事件
  $(document).keypress(function(e) {  
@@ -257,11 +251,6 @@ $("#page1").on("pageClicked", function(event, data) { //分页按钮事件
          //jQuery(".confirmButton").click();
         }
    }); 
-
-
-
-
-/*function*/
 
 //消息提示
 function alertInfo(msg) {
@@ -280,28 +269,14 @@ function alertWarning(msg) {
 }
 
 
-
-
-//detect the number of paper at times
+//detect the number of paper at first
 function countPaper(){
   $.ajaxSetup({ cache: false }); 
   $.ajax({
     type:'get',
-    url:'sum',
+    url:'paper/count',
     success:function(msg){
-      $('#number').html(msg);
-    },
-  });
-}
-
-//detect the number of paper at first
-function showPaperCount(){
-  $.ajaxSetup({ cache: false }); 
-  $.ajax({
-    type:'get',
-    url:'sum',
-    success:function(msg){
-      var new_content = $('<span style="float:right;">现在已检测<span id="number" style="color:red;">'+msg+'</span>篇论文</span>').appendTo($('#subheader'));
+      $('<span style="float:right;">现在已检测<span id="number" style="color:red;">'+msg+'</span>篇论文</span>').appendTo($('#subheader'));
     },
   });
 }
@@ -317,13 +292,10 @@ function logout(){
     });
   }
 
-
-
 //pagination of the paper page
 function page(){
-  ///djahgjkhg 
 
-  $("#page").pagination({
+  $("#page").page({
     pageIndex: 0,
     pageSize: 10,
     total: 100,
@@ -340,15 +312,15 @@ function page(){
     jumpBtnText: '跳转',
     infoFormat: '{start} ~ {end}条，共{total}条',
     remote: {
-      url:'allHistory' ,
+      url:'paper/list-all' ,
       params: null,
       success: function(data) {
         htdata = data;
-        var pageindex = $("#page").pagination('getPageIndex');
-        var pagesize = $("#page").pagination('getPageSize');
+        var pageindex = data.page.number;
+        var pagesize = data.page.size;
         $("#eventLog").empty();
         var start = pageindex * pagesize;
-        var end = (pageindex + 1) * pagesize < htdata.historyList.length ? (pageindex + 1) * pagesize : htdata.historyList.length;
+        var end = (pageindex + 1) * pagesize < htdata.page.content.length ? (pageindex + 1) * pagesize : htdata.page.content.length;
         updatePaper(start, end);
       }
     }
@@ -360,7 +332,7 @@ function page(){
 //pagination of the advice page
 function page1(){
   
-  $("#page1").pagination({
+  $("#page1").page({
     pageIndex: 0, //指定当前页数
     pageSize: 10, //每页显示数据数
     total: 100, //总数据数，生成分页则必须配置该属性以生成分页，
@@ -377,15 +349,15 @@ function page1(){
     jumpBtnText: '跳转', //跳转显示文字
     infoFormat: '{start} ~ {end}条，共{total}条', //显示分页信息
     remote: {
-      url: 'adviceshow',
+      url: 'advice/list',
       params: null,
       success: function(data) {
         htdata1 = data;
-        var pageindex = $("#page1").pagination('getPageIndex'); //获取当前的pageIndex
-        var pagesize = $("#page1").pagination('getPageSize'); //获取当前的pageSize
+        var pageindex = data.page.number; //获取当前的pageIndex
+        var pagesize = data.page.size; //获取当前的pageSize
         $("#eventLog1").empty();
         var start = pageindex * pagesize;
-        var end = (pageindex + 1) * pagesize < htdata1.adviceList.length ? (pageindex + 1) * pagesize : htdata1.adviceList.length;
+        var end = (pageindex + 1) * pagesize < htdata1.page.content.length ? (pageindex + 1) * pagesize : htdata1.page.content.length;
         updateAdvice(start, end)
       }
     }
@@ -411,9 +383,6 @@ function postprocess1(){
   if($("#eventLog1:has(div)").length==0)
     var new_tbody=$('<div>抱歉，没有您要查找的信息！</div>').appendTo($('#eventLog1'));
 }
-
-
-
 
 
 //function of searching
@@ -456,7 +425,6 @@ function search_01(a,b){
 }
 
 
-
 function search_02(a,b){
   $("#page1").pagination('destroy');
   $("#page1").empty();
@@ -485,7 +453,7 @@ function search_02(a,b){
         var pageindex = $("#page1").pagination('getPageIndex'); //获取当前的pageIndex
         var pagesize = $("#page1").pagination('getPageSize'); //获取当前的pageSize
         var start = pageindex * pagesize;
-        var end = (pageindex + 1) * pagesize < htdata1.adviceList.length ? (pageindex + 1) * pagesize : htdata1.adviceList.length;
+        var end = (pageindex + 1) * pagesize < htdata1.page.content.length ? (pageindex + 1) * pagesize : htdata1.page.content.length;
         updateAdvice(start, end)
       }
     }
@@ -494,38 +462,39 @@ function search_02(a,b){
     var new_tbody=$('<div>抱歉，没有您要查找的信息！</div>').appendTo($('#eventLog1'));
 }
 
-
-
-
-//the function of window.onload
-function update(){
-  page();
-  page1();
-  showPaperCount();
-  setInterval('countPaper()',15000);
-  //时间插件
-  datePickerController.createDatePicker({
-    // Associate the text input to a DD/MM/YYYY date format
-    formElements:{"start":"%Y-%m-%d"}
-    });
-    datePickerController.createDatePicker({
-    // Associate the text input to a DD/MM/YYYY date format
-    formElements:{"start1":"%Y-%m-%d"}
-    });
-
-}
-
 //pagination of advice page
 function updateAdvice(start, end) {
   for (var i = start; i < end; i++) {
-    var new_tbody = $('<div id="tbody1' + htdata1.adviceList[i].aid + '" class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;"><input id="check' + htdata1.adviceList[i].aid + '" type="checkbox" name="checkbox" class="col-md-2"><div class="row col-md-10"><div class="col-md-2">' + htdata1.adviceList[i].aid + '</div><div class="col-md-2">' + htdata1.adviceList[i].name + '</div><div class="col-md-2">' + htdata1.adviceList[i].sid + '</div><div class="col-md-3">' + htdata1.adviceList[i].email + '</div><div class="col-md-3"><a class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse' + htdata1.adviceList[i].aid + '" aria-expanded="false" aria-controls="collapse' + htdata1.adviceList[i].aid + '">查看反馈意见</a></div></div></div><div class="collapse" style="margin-right:20px;" id="collapse' + htdata1.adviceList[i].aid + '"><div class="well">' + htdata1.adviceList[i].advice + '</div></div>').appendTo($('#eventLog1'));
-    $("div[id^=tbody1]:odd").css('background-color', 'rgb(230,230,230)');
+      let it=htdata1.page.content[i]
+        $(`
+<div id="tbody${it.id}" class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;">
+    <input id="check2" type="checkbox" name="checkbox" class="col-md-2">
+    <div class="row col-md-10">
+        <div class="col-md-2">${it.id}</div>
+        <div class="col-md-3">${it.advisor.name}</div>
+        <div class="col-md-3">${it.advisor.sid}</div>
+        <div class="col-md-4">
+            <a class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2" onclick="alertInfo('${it.content}')">查看反馈意见</a>
+        </div>
+    </div>
+</div>
+`).appendTo($('#eventLog1'));
   }
 }
 // pagination of paper page
 function updatePaper(start, end) {
   for (var i = start; i < end; i++) {
-    var new_tbody = $('<div id="tbody0' + htdata.historyList[i].pid + '" class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;"><input id="check' + htdata.historyList[i].pid + '" type="checkbox" name="checkbox" class="col-md-1"><div class="row col-md-11"><div class="col-md-2">' + htdata.historyList[i].name + '</div><div class="col-md-2">' + htdata.historyList[i].sid + '</div><div class="col-md-6" style="overflow:hidden;"><a href="download?paper_name=' + encodeURI(encodeURI(htdata.historyList[i].paper_id)) + '">' + htdata.historyList[i].paper_id + '</a></div><div class="col-md-2"><a href="download?paper_name=report' + encodeURI(encodeURI(htdata.historyList[i].paper_id)) + '">点击下载</a></div></div></div>').appendTo($('#eventLog'));
-    $("div[id^=tbody0]:odd").css('background-color', 'rgb(230,230,230)');
+      let it=htdata.page.content[i]
+      $(`
+<div id="tbody0${it.id}" class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;">
+    <input id="check${it.id}" type="checkbox" name="checkbox" class="col-md-1">
+    <div class="row col-md-11">
+        <div class="col-md-2">${it.author.name}</div>
+        <div class="col-md-2">${it.author.sid}</div>
+        <div class="col-md-6" style="overflow:hidden;text-align: center;"><a href="${it.downloadLink}">${it.name}</a></div>
+        <div class="col-md-2"><a href="${it.report.downloadLink}">点击下载</a></div>
+    </div>
+</div>
+`).appendTo($('#eventLog'));
   }
 }

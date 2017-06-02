@@ -25,7 +25,7 @@ grails:
             events: false
     views:
         json:
-            compileStatic: true
+            compileStatic: false
 info:
     app:
         name: '@info.app.name@'
@@ -89,6 +89,8 @@ grails:
 
 ---
 hibernate:
+    flush:
+        mode: AUTO
     cache:
         queries: false
         use_second_level_cache: true

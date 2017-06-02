@@ -1,16 +1,22 @@
 package pd
 
+import org.hibernate.SessionFactory
+
 class AuthorizationInterceptor {
     
-    def sessionFactory
+    SessionFactory sessionFactory
     
     AuthorizationInterceptor(){
         matchAll()
     }
 
     boolean before() {
-        println "原始请求： ${request.requestURI-request.contextPath}"
-        
+        def uri = URLDecoder.decode(request.requestURI-request.contextPath,'UTF-8')
+        println "原始请求： ${uri}"
+        def filterList=['/student.html','/teacher.html','/']
+//        println session.student
+//        println session.teacher
+        if(filterList.contains(uri)&&!session.student&&!session.teacher) return redirect(uri:'/login.html')
         /*def refreshCookie=false
         //首次访问网站
         if(!session.user){
@@ -38,7 +44,7 @@ class AuthorizationInterceptor {
     }
     
     boolean after() {
-        sessionFactory.currentSession.flush()
+//        sessionFactory.currentSession.flush()
         true
     }
 

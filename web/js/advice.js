@@ -19,9 +19,9 @@ $(function() {
     } else {
       $.ajax({
         type: 'post',
-        url: 'advice',
+        url: 'advice/submit',
         data: {
-          advice: encodeURI($('#advice').val()),
+          content: $('#advice').val(),
           email: $('#mail').val()
         },
         success: function(msg) {

@@ -1,22 +1,17 @@
 package pd
 
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import groovy.text.SimpleTemplateEngine
 import org.springframework.mail.javamail.JavaMailSenderImpl
-import org.springframework.mail.javamail.MimeMessageHelper
 
-import javax.mail.internet.MimeMessage
-import javax.servlet.http.Cookie
-import javax.servlet.http.HttpServletResponse
 
-import static Student.GUEST
 
 @Transactional
 class UserController {
     
     static responseFormats = ['json']
     
-    def mailSender=new JavaMailSenderImpl().with{
+/*    def mailSender=new JavaMailSenderImpl().with{
         host            =   'smtp.qq.com'
         port            =   465             //端口号，QQ邮箱需要使用SSL，端口号465或587
         username        =   '350986489'
@@ -31,7 +26,7 @@ class UserController {
                 'mail.smtp.socketFactory.fallback':false,
         ] as Properties
         it
-    }
+    }*/
     
     def templateEngine=new SimpleTemplateEngine()
     
@@ -39,7 +34,7 @@ class UserController {
     @SuppressWarnings("UnnecessaryQualifiedReference")
     def register(){
         Student student=new Student(name:params.name,sid:params.username,clazz:params.grade,password:params.password,gender:params.sex)
-        if(!student.validate()) return redirect('')
+        if(!student.validate()) return render(-1)
         student.with{
             uuid=UUID.randomUUID().toString()
             lastIp=request.remoteAddr
@@ -70,17 +65,16 @@ class UserController {
         def teacher = Teacher.find{tid==params.username&&password==params.password}
         if(teacher){
             session.teacher=teacher
-            return redirect(uri:'/teacher.html')
+            return render(-1)
         }
         if(params.username=='204099999'&&params.password=='123456'){
             if(!Teacher.count) new Teacher(tid:'204099999',name:'赖晓晨',password:'123456').save()
             session.teacher=teacher
             session.student=new Student(sid:'204099999',name:'赖晓晨')
-            return redirect(uri:'/teacher.html')
+            return render(-1)
         }
         //再尝试学生登录
         def student = Student.find{sid==params.username}
-        println student.papers
         if(!student) return render(0)
         if(student.password!=params.password) return render(2)
         student.lastIp=request.remoteAddr

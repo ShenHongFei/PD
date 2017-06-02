@@ -32,6 +32,7 @@ class ResourceController{
             return render(view:'/failure',model:[message:"RESOURCE ${uri} NOT FOUND".toString()],status:404)
         }
         response.addHeader('Content-Length',resource.size() as String)
+        if(uri.endsWith('.txt')) response.addHeader('Content-Disposition',"attachment; filename=\"${URLEncoder.encode(resource.name,'UTF-8')}\"")
         render(file:resource,contentType:contentNegotiationStrategy.getMediaTypeForResource(new FileSystemResource(resource)))
     }
     

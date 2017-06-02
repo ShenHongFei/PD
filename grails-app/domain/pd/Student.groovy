@@ -27,8 +27,9 @@ class Student{
         email email:true
     }
     static hasMany = [papers:Paper]
+    //todo:!!!需要理解
     static mapping={
-        papers lazy:false
+        papers fetch: 'join'
     }
     
 

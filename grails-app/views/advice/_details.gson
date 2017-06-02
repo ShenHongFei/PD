@@ -1,0 +1,12 @@
+import pd.Advice
+
+import java.text.SimpleDateFormat
+
+model{
+    Advice advice
+}
+
+json g.render(advice,[includes:['id','content']]){
+    createdAt advice.createdAtString
+    advisor tmpl.'/user/student-info'(advice.advisor)
+}

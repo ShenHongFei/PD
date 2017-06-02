@@ -79,13 +79,9 @@ function listPaper() {
             return
         }
         let historyTable = $("#historytable");
-        historyTable.html('');
+        historyTable.empty()
         model.papers.forEach(function(it){
-            let tr=$("<tr><tr/>")
-            tr.append("<td>" + it.uploadAt + "</td>")
-            tr.append("<td id='pname_" + it.name + "'>" + it.name + "</td>");
-            tr.append("<td><button type='button' class='btn btn-info' onclick='viewReport(" + it.id + ")'>查看检测报告</button></td>");
-            historyTable.append(tr);
+            historyTable.append(`<tr><td>${it.uploadAt}</td><td id="pname_${it.name}">${it.name}</td><td><button type='button' class='btn btn-info' onclick='viewReport(${it.id})'>查看检测报告</td></tr>`)
         })
         
       }})
@@ -112,7 +108,7 @@ function viewReport(paperId) {
             var n = datas.length;
             $('#report-text').html('<h3 style="text-align:center;">《'+model.report.name+'》</h3>'+'<h5 style="text-align:right;">时间：'+model.report.createdAt+'</h5>'+model.report.content)
 
-            $("#report").append("<a id='download1' href='" + model.report.link + "' class='btn btn-lg btn-primary btn-block' style='margin-top: -17px; width: 90px; margin-left: 843px; display: inline-block !important; font-size: 14px;'>检测报告</a>");
+            $("#report").append("<a id='download1' href='" + model.report.link + "' class='btn btn-lg btn-primary btn-block' style='margin-top: -17px; width: 90px; margin-left: 921px; display: inline-block !important; font-size: 14px;'>下载报告</a>");
             /*$("#report").append("<a id='download2' href='download?paper_name=" + encodeURI(encodeURI(datas[0])) + "' class='btn btn-lg btn-primary btn-block' style='margin-top: 10px; width: 90px; margin-left: 15px; display: inline-block !important; font-size: 14px;'>自动修正</a>");*/
             $('#report').append('<span id="toolitip1" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -47px -114px;">下载论文检测报告</span>')//-220px
             $('#report').append('<span id="toolitip2" style="visibility: hidden;width: 134px;font-size: x-small;background-color: rgba(0, 0, 0, 0.54);color: #fff;text-align: center;border-radius: 6px;padding: 6px 0px; /* Position the tooltip */position: absolute;z-index: 1;margin: -65px -113px;">下载本论文的格式自动修正版本（本功能尚处于测试阶段，对修正结果不做任何承诺）</span>')
@@ -153,7 +149,7 @@ function uploadAndDetectPaper() {
     }
 
     //传送是否屏蔽代码选项的信息
-    var p=0;
+    /*var p=0;
     if($('#pingbi input').is(':checked'))
         p=1;
     $.ajax({
@@ -163,7 +159,7 @@ function uploadAndDetectPaper() {
         success:function(){
 
         },
-    });
+    });*/
 
 
     //去掉屏蔽代码的提示
