@@ -285,7 +285,7 @@ function countPaper(){
 function logout(){
     $.ajax({
       type:'get',
-      url:'logout',
+      url:'user/logout',
       success:function(){
         window.location.href='login.html';
       },
@@ -466,9 +466,10 @@ function search_02(a,b){
 function updateAdvice(start, end) {
   for (var i = start; i < end; i++) {
       let it=htdata1.page.content[i]
+        //<input id="check2" type="checkbox" name="checkbox" class="col-md-2">
         $(`
 <div id="tbody${it.id}" class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;">
-    <input id="check2" type="checkbox" name="checkbox" class="col-md-2">
+    
     <div class="row col-md-10">
         <div class="col-md-2">${it.id}</div>
         <div class="col-md-3">${it.advisor.name}</div>
@@ -485,9 +486,10 @@ function updateAdvice(start, end) {
 function updatePaper(start, end) {
   for (var i = start; i < end; i++) {
       let it=htdata.page.content[i]
+          // <!--<input id="check${it.id}" type="checkbox" name="checkbox" class="col-md-1">-->
       $(`
 <div id="tbody0${it.id}" class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;">
-    <input id="check${it.id}" type="checkbox" name="checkbox" class="col-md-1">
+    
     <div class="row col-md-11">
         <div class="col-md-2">${it.author.name}</div>
         <div class="col-md-2">${it.author.sid}</div>

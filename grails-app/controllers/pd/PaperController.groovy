@@ -23,7 +23,7 @@ class PaperController {
     @SuppressWarnings("GroovyUnnecessaryReturn")
     def detect(){
         def paperFile = params.paper as MultipartFile
-        if(!paperFile||paperFile.empty) return render('无上传论文')
+        if(!paperFile||paperFile.empty||!paperFile.originalFilename.endsWith('.docx')) return render('无上传论文或论文格式不正确')
         def student = session.student
         def paper = new Paper(paperFile,student)
         if(!paper.validate()) return render('上传失败，上传的论文有问题')//todo:上传校验
@@ -68,7 +68,8 @@ class PaperController {
     //params pageIndex pageSize
     def listAll(){
         def page        = (params.pageIndex?:0) as Integer
-        def size        = (params.pageSize?:5) as Integer
+//        def size        = (params.pageSize?:5) as Integer
+        def size        = 1000
         def sortParams  = (params.sort?:'id,desc').split(',') as List
         def sortBy      = sortParams[0]
         def order       = sortParams[1]
@@ -99,12 +100,15 @@ class PaperController {
         
         @Override
         void run(){
-            //todo:多线程同时访问文件的问题
+            //todo:多个报告同时检测的问题
             status=RUNNING
             def original=paper as File
-            def tempPaper=new File(detectDir,original.name.replaceAll(' ','-')) //论文检测程序不支持带空格的文件名
-            def tempTemplate=new File(detectDir,"template-${UUID.randomUUID()}.docx")
+            def tempPaper       =new File(detectDir     ,original.name.replaceAll(' ','-')) //论文检测程序不支持带空格的文件名
+            def tempTemplate    =new File(detectDir     ,"template-${UUID.randomUUID()}.docx")
+            def targetReport    =new File(binDir        ,"Papers/${tempPaper.name-'.docx'}/report.txt")
+            
             def start=System.currentTimeMillis()
+            
             Files.copy(original.toPath(),tempPaper.toPath(),StandardCopyOption.REPLACE_EXISTING)
             Files.copy(Paths.get("$binDir\\template.docx"),tempTemplate.toPath())
             
@@ -112,11 +116,10 @@ class PaperController {
             println "论文检测命令行:\n$command"
             ps=command.execute(null as List,binDir)
             ps.waitForOrKill(25*1000)
-            tempTemplate.delete()
             
             if(ps.exitValue()==0){
                 println ps.inputStream.getText('gbk')
-                def targetReport = new File(binDir,"Papers/${tempPaper.name-'.docx'}/report.txt")
+                
                 // todo:！！！！还需要理解一下！！
                 Report.withTransaction{
                     report = new Report(paper,targetReport)
@@ -128,8 +131,7 @@ class PaperController {
                 }
                 status=FINISHED
                 
-                targetReport.parentFile.deleteDir()
-                tempPaper.delete()
+                
                 println "论文检测正常结束，耗时：${(System.currentTimeMillis()-start)/1000}s"
             }else{
                 status=ERROR
@@ -142,6 +144,9 @@ class PaperController {
                     println '检测程序出错或killed'
                 }
             }
+            targetReport.parentFile.deleteDir()
+            tempPaper.delete()
+            tempTemplate.delete()
         }
     }
     

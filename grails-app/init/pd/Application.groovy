@@ -2,7 +2,9 @@ package pd
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
+import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy
 
+import javax.sql.DataSource
 import java.text.SimpleDateFormat
 
 class Application extends GrailsAutoConfiguration {
@@ -37,6 +39,8 @@ class Application extends GrailsAutoConfiguration {
     
     @Override
     void doWithApplicationContext(){
+        def dataSource=applicationContext.getBean('dataSource') as TransactionAwareDataSourceProxy
+        println dataSource.properties
         println config
     }
     

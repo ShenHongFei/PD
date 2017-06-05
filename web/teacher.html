@@ -50,7 +50,7 @@
       <img src="images/redant.png">
       <span>本科毕业论文格式检测系统</span>
       <div class="pull-right">
-        <a data-toggle="modal" data-target="#exampleModal" style="border-right:1px solid rgb(66,139,202);height:100%;padding-right:10px;margin-right:5px;">修改密码</a>
+        <!--<a data-toggle="modal" data-target="#exampleModal" style="border-right:1px solid rgb(66,139,202);height:100%;padding-right:10px;margin-right:5px;">修改密码</a>-->
         <a href="more.html" style="border-right:1px solid rgb(66,139,202);height:100%;padding-right:10px;margin-right:5px;">了解更多</a>
          <a onclick="logout();">退出登录</a>
       </div>
@@ -63,7 +63,7 @@
       -->         </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home">
-          <div id="delete" class="btn btn-danger" style="float: left;width:80px;margin-top:-80px;margin-left: 862px;">删除</div>
+          <!--<div id="delete" class="btn btn-danger" style="float: left;width:80px;margin-top:-80px;margin-left: 862px;">删除</div>-->
 
         <!-- 先屏蔽掉树形查找
          <div id="menuDemo" class="rootVoices myMenu" cellspacing='0' cellpadding='0' border='0'>
@@ -71,27 +71,27 @@
           </div>-->
 		
 
-		<select id="select_01" style="width:150px;float: left;margin-top:-72px;font-size: 15px;margin-left: 52px;">
+		<!--<select id="select_01" style="width:150px;float: left;margin-top:-72px;font-size: 15px;margin-left: 52px;">
 			<option value="0">姓名</option>
 			<option value="1">学号</option>
 			<option value="2">论文</option>
 			<option value="3">班级</option>
-		</select>
+		</select>-->
 
           <div class="form-group" style="width:300px;display: inline; float: left;margin-top:-80px;margin-left: 252px;">
-          <div class="input-group">
+          <!--<div class="input-group">
             <input id="search_01" data-container="body" data-toggle="popover" data-placement="top" data-content="您输入的信息有误" data-trigger="manual" class="form-control" placeholder="请输入您想要查找的信息" type="text" onfocus="this.placeholder=$('#select_01 option:selected').text()+'信息'" autocomplete="off"><span onclick="search_01($('#select_01').val(),encodeURI($('#search_01').val()));" class="input-group-addon" style="cursor: pointer;"><i class="glyphicon glyphicon-search"></i></span>
-          </div>
+          </div>-->
         </div>
 
-<input onclick="window.location.reload();" type="button" class="btn btn-primary" value="查看全部" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 732px;">
+<!--<input onclick="window.location.reload();" type="button" class="btn btn-primary" value="查看全部" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 732px;">-->
 
 
 
 
 
 <!--实现按照时间段查找的方法-->
-<input type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" value="时间查找" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 602px;">
+<!--<input type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" value="时间查找" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 602px;">-->
 
 <div id="myModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
   <div class="modal-dialog" role="document">
@@ -133,7 +133,7 @@
           <div id="table" style="text-align: center;">
            <!-- <marquee style="float:left;width:60%;margin-top: -70px;"  onmouseout="this.start()" onmouseover="this.stop()" scrollamount="2" scrolldelay="0.5">点击相应的论文和检测报告可以下载哦~</marquee>-->
             <div class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;">
-              <input id="check" type="checkbox" name="checkbox" class="col-md-1">
+              <!--<input id="check" type="checkbox" name="checkbox" class="col-md-1">-->
               <div class="row col-md-11">
                 <div class="col-md-2">姓名</div>
                 <div class="col-md-2">学号</div>
@@ -142,26 +142,26 @@
               </div>
             </div>
             <div id="eventLog"></div>
-            <div id="page" class="m-pagination"></div>
+            <div id="page" class="m-pagination" style="display: none;"></div>
           </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="profile">
           <div id="table1" style="text-align: center;">
-          <select id="select_02" style="width:150px;float: left;margin-top:-72px;font-size: 15px;">
-			<option value="0">姓名</option>
-			<option value="1">学号</option>
-		<!--	<option value="2">班级</option>-->
-		</select>
+              <!--<select id="select_02" style="width:150px;float: left;margin-top:-72px;font-size: 15px;">
+                  <option value="0">姓名</option>
+                  <option value="1">学号</option>
+                  &lt;!&ndash;	<option value="2">班级</option>&ndash;&gt;
+              </select>-->
 
           <div class="form-group" style="width:300px;display: inline; float: left;margin-top:-80px;margin-left: 200px;">
           <div class="input-group">
-            <input id="search_02" data-container="body" data-toggle="popover" data-placement="right;" data-content="您输入的信息有误" data-trigger="manual" class="form-control" placeholder="请输入您想要查找的信息" type="text" onfocus="this.placeholder=$('#select_02 option:selected').text()+'信息';" autocomplete="off"><span onclick="search_02($('#select_01').val(),encodeURI($('#search_01').val()));" class="input-group-addon" style="cursor: pointer;"><i class="glyphicon glyphicon-search"></i></span>
+<!--            <input id="search_02" data-container="body" data-toggle="popover" data-placement="right;" data-content="您输入的信息有误" data-trigger="manual" class="form-control" placeholder="请输入您想要查找的信息" type="text" onfocus="this.placeholder=$('#select_02 option:selected').text()+'信息';" autocomplete="off"><span onclick="search_02($('#select_01').val(),encodeURI($('#search_01').val()));" class="input-group-addon" style="cursor: pointer;"><i class="glyphicon glyphicon-search"></i></span>-->
           </div>
         </div>
 
 
-        <input onclick="window.location.reload();" type="button" class="btn btn-primary" value="查看全部" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 550px;">
-        <div id="delete1" class="btn btn-danger" style="float: left;width:80px;margin-top:-80px;margin-left: 680px;">删除</div>
+<!--        <input onclick="window.location.reload();" type="button" class="btn btn-primary" value="查看全部" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 550px;">
+        <div id="delete1" class="btn btn-danger" style="float: left;width:80px;margin-top:-80px;margin-left: 680px;">删除</div>-->
 
 <!--实现按照时间段查找的方法-->
 <!--<input type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" value="时间查找" style="width:80px;display: inline; float: left;margin-top:-80px;margin-left: 550px;">
@@ -200,7 +200,7 @@
             <!--<marquee style="float:left;width:60%;margin-top: -70px;"  onmouseout="this.start()" onmouseover="this.stop()" scrollamount="2" scrolldelay="0.5">点击复选框后面的文字可以查看反馈意见</marquee>-->
 
             <div class="row" style="margin-bottom: 20px;border-bottom:rgb(248,248,248) 2px solid;font-weight: bold;width:100%;">
-              <input id="check1" type="checkbox" name="checkbox1" class="col-md-2">
+              <!--<input id="check1" type="checkbox" name="checkbox1" class="col-md-2">-->
               <div class="row col-md-10">
                 <div class="col-md-2">编号</div>
                 <div class="col-md-3">姓名</div>
@@ -209,7 +209,7 @@
               </div>
             </div>
             <div id="eventLog1"></div>
-            <div id="page1" class="m-pagination"></div>
+            <div id="page1" class="m-pagination" style="display: none;"></div>
           </div>
         </div>
       </div><!--tab>>总的div-->

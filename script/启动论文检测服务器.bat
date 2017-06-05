@@ -1,3 +1,3 @@
-@echo off &title »±ÃË
-java -jar -Dfile.encoding=UTF-8 HM.jar
+@echo off &title ÂÛÎÄ¼ì²â
+java -jar -Dfile.encoding=UTF-8 PD.jar
 pause

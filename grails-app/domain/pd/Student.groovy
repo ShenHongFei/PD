@@ -10,7 +10,10 @@ class Student{
     String password
     String clazz
     String name
-    String gender
+    enum Gender{
+        MAN,WOMAN
+    }
+    Gender gender
     
     List<Paper> papers=[]
 
@@ -22,7 +25,6 @@ class Student{
     String  uuid //**
     
     static constraints = {
-        password size:1..20
         sid matches:/[0-9]{1,20}/,unique:true
         email email:true
     }

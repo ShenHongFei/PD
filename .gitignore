@@ -3,5 +3,6 @@ PD.iml
 build/
 src/
 data/
-bin/Papers
+bin/Papers/
+bin/Templates/
 测试论文/

@@ -10,15 +10,16 @@ class ResourceController{
     
     static responseFormats = ['json','gsp']
     
-    static final HOME_PAGE='/student.html'
-    
     def contentNegotiationStrategy=new PathExtensionContentNegotiationStrategy()
     
     def resource(){
         def uri=URLDecoder.decode(request.requestURI-request.contextPath,'UTF-8')
         def resource
         uri-='/ueditor/dialogs/preview'
-        if(uri=='/') uri=HOME_PAGE
+        if(uri=='/'){
+            if(session.teacher) uri='/teacher.html'
+            else uri='/student.html'
+        }
         if(uri.contains('/data')){
             def fileuri=uri-'/data/'
             println "uri=$fileuri"
@@ -32,8 +33,10 @@ class ResourceController{
             return render(view:'/failure',model:[message:"RESOURCE ${uri} NOT FOUND".toString()],status:404)
         }
         response.addHeader('Content-Length',resource.size() as String)
-        if(uri.endsWith('.txt')) response.addHeader('Content-Disposition',"attachment; filename=\"${URLEncoder.encode(resource.name,'UTF-8')}\"")
-        render(file:resource,contentType:contentNegotiationStrategy.getMediaTypeForResource(new FileSystemResource(resource)))
+        if(uri.endsWith('.txt')||uri.endsWith('.docx')) response.addHeader('Content-Disposition',"attachment; filename=\"${URLEncoder.encode(resource.name,'UTF-8')}\"")
+        try{
+            return render(file:resource,contentType:contentNegotiationStrategy.getMediaTypeForResource(new FileSystemResource(resource)))
+        }catch(any){}
     }
     
 }

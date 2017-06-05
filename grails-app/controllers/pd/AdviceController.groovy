@@ -14,7 +14,8 @@ class AdviceController {
     
     def list(){
         def page        = (params.pageIndex?:0) as Integer
-        def size        = (params.pageSize?:5) as Integer
+//        def size        = (params.pageSize?:5) as Integer
+        def size        = 1000
         def sortParams  = (params.sort?:'id,desc').split(',') as List
         def sortBy      = sortParams[0]
         def order       = sortParams[1]
