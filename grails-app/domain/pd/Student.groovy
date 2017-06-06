@@ -14,6 +14,7 @@ class Student{
         MAN,WOMAN
     }
     Gender gender
+    Date registerTime
     
     List<Paper> papers=[]
 
@@ -25,8 +26,8 @@ class Student{
     String  uuid //**
     
     static constraints = {
-        sid matches:/[0-9]{1,20}/,unique:true
-        email email:true
+        sid matches:/[0-9]{1,20}/,unique:true,nullable:false
+        email email:true,nullable:false
     }
     static hasMany = [papers:Paper]
     //todo:!!!需要理解
@@ -34,7 +35,9 @@ class Student{
         papers fetch: 'join'
     }
     
-
+    def beforeInsert(){
+        registerTime=new Date()
+    }
     
     @Override
     String toString(){ "{id: $id, sid:$sid, password:$password" }

@@ -475,7 +475,7 @@ function updateAdvice(start, end) {
         <div class="col-md-3">${it.advisor.name}</div>
         <div class="col-md-3">${it.advisor.sid}</div>
         <div class="col-md-4">
-            <a class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2" onclick="alertInfo('${it.content}')">查看反馈意见</a>
+            <a class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2" onclick="alertInfo('${it.content.replace(/\n/g,"<br>")}');">查看反馈意见</a>
         </div>
     </div>
 </div>

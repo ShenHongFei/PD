@@ -12,11 +12,17 @@ class AuthorizationInterceptor {
 
     boolean before() {
         def uri = URLDecoder.decode(request.requestURI-request.contextPath,'UTF-8')
-        println "原始请求： ${uri}"
-        def filterList=['/student.html','/teacher.html','/']
-//        println session.student
-//        println session.teacher
-        if(filterList.contains(uri)&&!session.student&&!session.teacher) return redirect(uri:'/login.html')
+        try{
+            if(!uri.split('/')[-1].contains('.')){
+                println "API=\t$uri"
+            }
+        }catch(any){}
+        if(uri.endsWith('.jsp')) return redirect(uri:'/')
+        def filterExcludeList=['/login.html','/register.html']
+        if(!filterExcludeList.contains(uri)&&uri.endsWith('.html')&&!session.student&&!session.teacher) return redirect(uri:'/login.html')
+        if(session.teacher&&uri=='/student.html') return redirect(uri:'/teacher.html')
+        if(session.student&&uri=='/teacher.html') return redirect(uri:'/student.html')
+        if((session.teacher||session.student)&&uri=='/login.html') return redirect(uri:'/')
         /*def refreshCookie=false
         //首次访问网站
         if(!session.user){
@@ -44,14 +50,10 @@ class AuthorizationInterceptor {
     }
     
     boolean after() {
-//        sessionFactory.currentSession.flush()
         true
     }
 
     void afterView() {
-        if(request.getHeader('Origin')){
-            response.addHeader('Access-Control-Allow-Origin','shenhongfei.site')
-            response.addHeader('Access-Control-Allow-Credentials','true')
-        }
+        
     }
 }

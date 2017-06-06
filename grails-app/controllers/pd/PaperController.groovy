@@ -25,9 +25,10 @@ class PaperController {
         def paperFile = params.paper as MultipartFile
         if(!paperFile||paperFile.empty||!paperFile.originalFilename.endsWith('.docx')) return render('无上传论文或论文格式不正确')
         def student = session.student
+        if(!student) return render('用户未登录')
         def paper = new Paper(paperFile,student)
-        if(!paper.validate()) return render('上传失败，上传的论文有问题')//todo:上传校验
-        session.paper=paper.save()
+//        if(!paper.validate()) return render('上传失败，上传的论文有问题')
+        session.paper=paper.save(flush:true)
         def detectorThread=session.detectorThread=new DetectorThread(student,paper)
         detectorThread.start()
         return render('上传成功')
@@ -85,7 +86,6 @@ class PaperController {
         Student student
         
         Process ps
-        // 0=完成 -1=出错 1=正在检测
         Status status
         static enum Status{
             ERROR,FINISHED,RUNNING
@@ -100,10 +100,9 @@ class PaperController {
         
         @Override
         void run(){
-            //todo:多个报告同时检测的问题
             status=RUNNING
             def original=paper as File
-            def tempPaper       =new File(detectDir     ,original.name.replaceAll(' ','-')) //论文检测程序不支持带空格的文件名
+            def tempPaper       =new File(detectDir     ,UUID.randomUUID().toString()+'-'+original.name.replaceAll(' ','-')) //论文检测程序不支持带空格的文件名
             def tempTemplate    =new File(detectDir     ,"template-${UUID.randomUUID()}.docx")
             def targetReport    =new File(binDir        ,"Papers/${tempPaper.name-'.docx'}/report.txt")
             
@@ -111,7 +110,7 @@ class PaperController {
             
             Files.copy(original.toPath(),tempPaper.toPath(),StandardCopyOption.REPLACE_EXISTING)
             Files.copy(Paths.get("$binDir\\template.docx"),tempTemplate.toPath())
-            
+            //路径不能包含空格
             String command="$binDir\\PaperFormatDetection.exe $tempTemplate $tempPaper false"
             println "论文检测命令行:\n$command"
             ps=command.execute(null as List,binDir)
@@ -130,7 +129,6 @@ class PaperController {
                     report.save(flush:true)
                 }
                 status=FINISHED
-                
                 
                 println "论文检测正常结束，耗时：${(System.currentTimeMillis()-start)/1000}s"
             }else{

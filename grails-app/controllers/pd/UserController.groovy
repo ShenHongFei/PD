@@ -16,8 +16,7 @@ class UserController {
     //1=成功 -1=失败
     @SuppressWarnings("UnnecessaryQualifiedReference")
     def register(){
-        def src= applicationContext.getBean('dataSource')
-        Student student=new Student(name:params.name,sid:params.username,clazz:params.grade,password:params.password,gender:params.sex)
+        Student student=new Student(name:params.name,sid:params.sid,clazz:params.clazz,password:params.password,gender:Student.Gender.valueOf(params.gender),email:params.email)
         if(!student.validate()) return render(-1)
         student.with{
             uuid=UUID.randomUUID().toString()
@@ -46,15 +45,15 @@ class UserController {
     * */
     def login(){
         //先尝试教师登录
-        def teacher = Teacher.find{tid==params.username&&password==params.password}
+/*        def teacher = Teacher.find{tid==params.username&&password==params.password}
         if(teacher){
             session.student=null
             session.teacher=teacher
             return render(-1)
-        }
-        if(params.username=='204099999'&&params.password=='123456'){
-            if(!Teacher.count) new Teacher(tid:'204099999',name:'赖晓晨',password:'123456').save()
-            session.teacher=teacher
+        }*/
+        if(params.username=='204099999'&&params.password=='123123'){
+//            if(!Teacher.count) new Teacher(tid:'204099999',name:'赖晓晨',password:'123123').save()
+            session.teacher=new Teacher(tid:'204099999',name:'赖晓晨',password:'123123')
             session.student=null
             return render(-1)
         }

@@ -114,7 +114,7 @@ $(document).ready(function() {
       $('#mail').css('border-color', 'red');
     }
     if ($('#user').val() == '201612345') {
-      alertWarning("用户已存在！请重新注册");
+      alertWarning("学号已注册，请直接登录");
       $('#myname,#myclass,#user,#pwd1,#pwd2').val('');
       return;
     }
@@ -152,15 +152,15 @@ $(document).ready(function() {
       url: 'user/register',
       data: {
         name: name_value,
-        username: username_value,
+        sid: username_value,
         email: $('#mail').val(),
-        grade: grade_value,
-        sex: sex_value,
+        clazz: grade_value,
+        gender: sex_value,
         password: password_value
       },
       success: function(msg) {
         if (msg == -1) {
-          alertWarning("用户已存在!请重新注册");
+          alertWarning("学号已被注册，请直接登录");
           $('#myclass,#myname,#user,#pwd1,#pwd2,#mail').val('');
           setTimeout("window.location.reload()","3000");
         } else {

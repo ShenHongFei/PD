@@ -1,7 +1,5 @@
 import pd.Advice
 
-import java.text.SimpleDateFormat
-
 model{
     Advice advice
 }

@@ -20,6 +20,6 @@ class AdviceController {
         def sortBy      = sortParams[0]
         def order       = sortParams[1]
         def advices = Advice.findAll("from Advice as advice inner join fetch advice.advisor order by advice.$sortBy $order".toString(),[max:size,offset:page*size])
-        render view:'/mypage',model:[myPage:new MyPage(advices,Advice.count,size,page),template:'/advice/details']
+        render view:'/mypage',model:[myPage:new MyPage(advices,Advice.count,size,page), template:'/advice/details']
     }
 }

@@ -175,7 +175,7 @@
         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">上传</a></li>
         <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" onclick="listPaper()">检测历史</a></li>
         <li role="presentation"><a href="#report" aria-controls="report" role="tab" data-toggle="tab">检测报告</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">个人设置</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">个人信息</a></li>
       </ul>
       <!-- Tab panes -->
       <div class="tab-content">
@@ -237,7 +237,7 @@
             </div>
           </div>
         </div>
-        <!--个人设置-->
+        <!--个人信息-->
         <div role="tabpanel" class="tab-pane" id="profile" style="height: auto;">
           <div id="ziliao">
             <div style="margin-top:15px;"><span class="glyphicon glyphicon-user" style="width:15px;clear:left;"></span><span style="line-height: 20px;">姓名</span><span id="st_name"></span></div>
@@ -277,7 +277,7 @@
         </div>
       </div>
     </div>
-    <div class="foot">版权所有：大连理工大学软件学院红蚂蚁实验室<br>联系电话：18340861689&nbsp;&nbsp;邮箱：648088725@qq.com</div>
+    <div class="foot">版权所有：大连理工大学软件学院红蚂蚁实验室<br>联系电话：13757144018&nbsp;&nbsp;邮箱：mail@shenhongfei.site</div>
 </body>
 <script type="text/javascript">
 
@@ -305,7 +305,7 @@ $(document).ready(function() {
 
   $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
     var activeTab = $(e.target).text();// 激活的选项卡名称
-    if(activeTab == "个人设置"){
+    if(activeTab == "个人信息"){
       $("#container").css('min-height','590px');
     }else{
       $("#container").css('min-height','460px');
