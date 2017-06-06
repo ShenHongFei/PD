@@ -1,15 +1,118 @@
 var global = (function() { return this || (1,eval)('(this)'); }());
 global.fileSize = 0;
-window.onload = loadfunc;
-function loadfunc() {
-	showPaperCount();
-  $('#input01').filestyle({
-    buttonText: '浏览'
-  });
-  loadinfo();
-  listPaper();
-  setInterval('countPaper()',15000);
+window.onload = function(){
+    countPaper();
+    $('#input01').filestyle({
+        buttonText: '浏览'
+    });
+    loadinfo();
+    listPaper();
 }
+
+$(document).ready(function() {
+    $.ajaxSetup({ cache: false });
+    var flag = 0;
+    $('#pwd1').change(function() {
+        if ($('#pwd1').val().length < 6 || $('#pwd1').val().length > 20 || flag == 1) {
+            $('#check1').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
+        } else {
+            $('#check1').html('');
+            $('#pwd2').css('border-color', 'rgb(200,200,200)');
+        }
+
+    });
+
+    $('#pwd2').change(function() {
+        if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20) {
+            $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
+        } else {
+            $('#check2').html('');
+            $('#pwd2').css('border-color', 'rgb(200,200,200)');
+
+
+            $.ajax({
+                type: 'post',
+                url: 'pass',
+                data: {
+                    new_pwd: $('#pwd2').val()
+                },
+                success: function(msg) {
+                    if (msg == 1) {
+                        $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
+                        flag = 1;
+                    } else {
+                        $('#check2').html('');
+                        $('#pwd2').css('border-color', 'rgb(200,200,200)');
+                        flag = 0;
+                    }
+                },
+            });
+        }
+
+        if ($('#pwd3').val() != $('#pwd2').val()) {
+            $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
+        } else {
+            $('#check3').html('');
+            $('#pwd3').css('border-color', 'rgb(200,200,200)');
+        }
+    });
+
+    $('#pwd3').change(function() {
+        if ($('#pwd3').val() != $('#pwd2').val()) {
+            $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
+        } else {
+            $('#check3').html('');
+            $('#pwd3').css('border-color', 'rgb(200,200,200)');
+        }
+    });
+
+    $('#queren').click(function() {
+        if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20 || flag == 1) {
+            $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
+            $('#pwd2,#pwd3').css('border-color', 'red');
+            $('#pwd2,#pwd3').val('');
+        }
+        if ($('#pwd3').val() != $('#pwd2').val()) {
+            $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
+            $('#pwd3').css('border-color', 'red');
+            $('#pwd3').val('');
+        }
+
+
+        if (flag == 1) {
+            $('#pwd2').css('border-color', 'red');
+            $('#pwd3').css('border-color', 'red');
+            $('#pwd2,#pwd3').val('');
+        }
+
+
+        if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20 || $('#pwd3').val() != $('#pwd2').val() || flag == 1) {
+            alertWarning('您输入的新密码有问题，请重新输入！');
+        } else {
+            old = $('#pwd1').val();
+            newa = $('#pwd2').val();
+            $.ajax({
+                data: {
+                    password: old,
+                    newpassword: newa
+                },
+                url: 'update',
+                success: function(msg) {
+                    if (msg == 1) {
+                        alertInfo("修改成功");
+                        $('#pwd1,#pwd2,#pwd3').val('');
+                    } else {
+                        alertWarning("您的初始密码有问题！");
+                        $('#pwd1').css('border-color', 'red');
+                        $('#pwd1').val('');
+                    }
+                },
+            });
+        }
+
+    });
+});
+
 
 function loadinfo() {
     $.ajaxSetup({cache:false});
@@ -33,17 +136,6 @@ function loadinfo() {
     });
 }
 
-function showPaperCount(){
-  $.ajaxSetup({ cache: false }); 
-  $.ajax({
-    type:'get',
-    url:'paper/count',
-    success:function(msg){
-      var new_content = $('<span style="float:right;">现在已检测<span id="number" style="color:red;">'+msg+'</span>篇论文</span>').appendTo($('#subheader'));
-    },
-  });
-}
-
 function countPaper(){
   $.ajaxSetup({ cache: false }); 
   $.ajax({
@@ -56,35 +148,35 @@ function countPaper(){
 }
 
 //文件大小检测
-function fileChange(target,fileSize) {
-if (/msie/i.test(navigator.userAgent) && !window.opera && !target.files) {
-var filePath = target.value;
-var fileSystem = new ActiveXObject("Scripting.FileSystemObject"); 
-var file = fileSystem.GetFile (filePath);
-fileSize = file.Size;
-} else {
-fileSize = target.files[0].size;
-}
-return fileSize;
+function fileChange(target,fileSize){
+    if(/msie/i.test(navigator.userAgent)&& !window.opera&& !target.files){
+        var filePath=target.value;
+        var fileSystem=new ActiveXObject("Scripting.FileSystemObject");
+        var file=fileSystem.GetFile(filePath);
+        fileSize=file.Size;
+    }else{
+        fileSize=target.files[0].size;
+    }
+    return fileSize;
 }
 
-function listPaper() {
+function listPaper(){
     $.ajaxSetup({cache:false});
     $.ajax({
         url:'paper/list',
         dataType:'json',
-    success: function(model) {
-        if(!model.result){
-            console.log(model.message)
-            return
+        success:function(model){
+            if(!model.result){
+                console.log(model.message)
+                return
+            }
+            let historyTable=$("#historytable");
+            historyTable.empty()
+            model.papers.forEach(function(it){
+                historyTable.append(`<tr><td>${it.uploadAt}</td><td id="pname_${it.name}">${it.name}</td><td><button type='button' class='btn btn-info' onclick='viewReport(${it.id})'>查看检测报告</td></tr>`)
+            })
         }
-        let historyTable = $("#historytable");
-        historyTable.empty()
-        model.papers.forEach(function(it){
-            historyTable.append(`<tr><td>${it.uploadAt}</td><td id="pname_${it.name}">${it.name}</td><td><button type='button' class='btn btn-info' onclick='viewReport(${it.id})'>查看检测报告</td></tr>`)
-        })
-        
-      }})
+    })
 }
 
 
@@ -130,18 +222,17 @@ function viewReport(paperId) {
 }
 
 
-function uploadAndDetectPaper() {
+function uploadAndDetectPaper(){
     $('#view-report-btn').hide();
     $.ajaxSetup({cache:false});
     listPaper();
-    setTimeout("listPaper()","2000");
+    setTimeout("listPaper()","4000");
     var docname=$("#input01").val();
     var docnames=docname.split('.');
     if(docname==""){
         alertWarning("没有选择论文，请重新上传！");
         $('#view-report-btn').hide();
         return;
-
     }else if(docnames[docnames.length-1]!='docx'){
         alertWarning('论文格式不是.docx，请重新上传！');
         $('#view-report-btn').hide();
@@ -166,7 +257,7 @@ function uploadAndDetectPaper() {
     $('#pingbi').addClass('collapse');
     //显示进度条   
     $('#progress,#progresser').removeClass('collapse');
-    //连续发送ajax请求，直到后台消息确认之后，显示查看报告按钮，进度条消失 
+    //连续发送ajax请求，直到得到检测结果，成功：显示查看报告按钮，进度条消失；失败：弹窗提示 
     var delta=10;
     $('#progress p').html('10%');
     $('#progress').css('width','10%');
@@ -194,6 +285,8 @@ function uploadAndDetectPaper() {
                         break;
                     }
                     case 'ERROR':{
+                        alertWarning('很抱歉，检测程序出错，请联系 QQ:957376407')
+                        clearInterval(show);
                         break;
                     }
                     case 'RUNNING':{
@@ -220,7 +313,7 @@ function uploadAndDetectPaper() {
         });
     },2000);
 
-    setTimeout(function() {
+    setTimeout(function(){
         $(":file").filestyle('clear');
     },1500);
 }
@@ -236,110 +329,6 @@ function logout(){
     },
   });
 }
-
-$(document).ready(function() {
-  $.ajaxSetup({ cache: false }); 
-  var flag = 0;
-  $('#pwd1').change(function() {
-    if ($('#pwd1').val().length < 6 || $('#pwd1').val().length > 20 || flag == 1) {
-      $('#check1').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
-    } else {
-      $('#check1').html('');
-      $('#pwd2').css('border-color', 'rgb(200,200,200)');
-    }
-
-  });
-
-  $('#pwd2').change(function() {
-    if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20) {
-      $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
-    } else {
-      $('#check2').html('');
-      $('#pwd2').css('border-color', 'rgb(200,200,200)');
-
-
-      $.ajax({
-        type: 'post',
-        url: 'pass',
-        data: {
-          new_pwd: $('#pwd2').val()
-        },
-        success: function(msg) {
-          if (msg == 1) {
-            $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
-            flag = 1;
-          } else {
-            $('#check2').html('');
-            $('#pwd2').css('border-color', 'rgb(200,200,200)');
-            flag = 0;
-          }
-        },
-      });
-    }
-
-    if ($('#pwd3').val() != $('#pwd2').val()) {
-      $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
-    } else {
-      $('#check3').html('');
-      $('#pwd3').css('border-color', 'rgb(200,200,200)');
-    }
-  });
-
-  $('#pwd3').change(function() {
-    if ($('#pwd3').val() != $('#pwd2').val()) {
-      $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
-    } else {
-      $('#check3').html('');
-      $('#pwd3').css('border-color', 'rgb(200,200,200)');
-    }
-  });
-  
-  $('#queren').click(function() {
-    if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20 || flag == 1) {
-      $('#check2').html("请输入5位以上21位以下密码，且只能是密码或数字~").css('color', 'red').css('font-size', '13px');
-      $('#pwd2,#pwd3').css('border-color', 'red');
-      $('#pwd2,#pwd3').val('');
-    }
-    if ($('#pwd3').val() != $('#pwd2').val()) {
-      $('#check3').html('您两次输入的密码不一致，请重新输入！').css('color', 'red').css('font-size', '13px');
-      $('#pwd3').css('border-color', 'red');
-      $('#pwd3').val('');
-    }
-
-
-    if (flag == 1) {
-      $('#pwd2').css('border-color', 'red');
-      $('#pwd3').css('border-color', 'red');
-      $('#pwd2,#pwd3').val('');
-    }
-
-
-    if ($('#pwd2').val().length < 6 || $('#pwd2').val().length > 20 || $('#pwd3').val() != $('#pwd2').val() || flag == 1) {
-      alertWarning('您输入的新密码有问题，请重新输入！');
-    } else {
-      old = $('#pwd1').val();
-      newa = $('#pwd2').val();
-      $.ajax({
-        data: {
-          password: old,
-          newpassword: newa
-        },
-        url: 'update',
-        success: function(msg) {
-          if (msg == 1) {
-            alertInfo("修改成功");
-            $('#pwd1,#pwd2,#pwd3').val('');
-          } else {
-            alertWarning("您的初始密码有问题！");
-            $('#pwd1').css('border-color', 'red');
-            $('#pwd1').val('');
-          }
-        },
-      });
-    }
-
-  });
-});
 
 function alertWarning(msg) {
   BootstrapDialog.show({

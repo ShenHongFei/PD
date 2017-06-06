@@ -20,21 +20,22 @@ class Application extends GrailsAutoConfiguration {
     public static File reportDir
     public static File uploadDir
     public static File detectDir
-
+    public static File errorDir
 
     
 //    static Boolean tableExists
     
     static{
-        projectDir=new File(System.properties['user.dir'] as String)
+        projectDir  =new File(System.properties['user.dir'] as String)
         println "当前路径： $projectDir.absolutePath"
-        binDir=new File(projectDir,'bin')
-        webDir=new File(projectDir,'web')
-        (dataDir=new File(projectDir,'data')).mkdirs()
-        (uploadDir=new File(dataDir,'upload')).mkdirs()
-        (paperDir=new File(dataDir,'paper')).mkdirs()
-        (detectDir=new File(dataDir,'detect')).mkdirs()
-        (reportDir=new File(dataDir,'report')).mkdirs()
+        binDir      =new File(projectDir,'bin')
+        webDir      =new File(projectDir,'web')
+        (dataDir    =new File(projectDir,'data')).mkdirs()
+        (uploadDir  =new File(dataDir,'upload')).mkdirs()
+        (paperDir   =new File(dataDir,'paper')).mkdirs()
+        (detectDir  =new File(dataDir,'detect')).mkdirs()
+        (reportDir  =new File(dataDir,'report')).mkdirs()
+        (errorDir   =new File(projectDir,'error')).mkdirs()
     }
     
     @Override

@@ -129,13 +129,20 @@ class PaperController {
                     report.save(flush:true)
                 }
                 status=FINISHED
-                
                 println "论文检测正常结束，耗时：${(System.currentTimeMillis()-start)/1000}s"
             }else{
                 status=ERROR
+                def errorPaperDir=new File(Application.errorDir,paper.id as String).with{mkdirs();it}
                 try{
-                    println ps.errorStream.getText('gbk')
-                    println ps.inputStream.getText('gbk')
+                    def errorStreamText = ps.errorStream.getText('gbk')
+                    def inputStreamText = ps.inputStream.getText('gbk')
+                    println errorStreamText
+                    println inputStreamText
+                    new File(errorPaperDir,'error-stream-text.txt')<<errorStreamText
+                    new File(errorPaperDir,'output-stream-text.txt')<<inputStreamText
+                    new File(errorPaperDir,'command-line.txt')<<command.toString()
+                    Files.move(targetReport.parentFile.toPath(),new File(errorPaperDir,targetReport.parentFile.name).toPath())
+                    Files.move(tempPaper.toPath(),new File(errorPaperDir,tempPaper.name).toPath())
                 }catch(Exception e){
                     e.printStackTrace()
                 }finally{

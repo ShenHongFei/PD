@@ -89,5 +89,4 @@ class UserController {
         render('success')
     }
     
-
 }
