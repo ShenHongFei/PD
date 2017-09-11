@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TableStyle>
+  <spErroInfo name="特殊错误信息">
+    <Text>中文表名位置不规范或缺少英文表名{表4.1  常见三种姿态表示方式部分对比||4.2.2  姿态表示方式}</Text>
+    <Text>某处英文表名不存在{4.2.2  姿态表示方式之后的第1个表}</Text>
+    <Text>表前空行位置不规范，应在中英文标题前一行：{ 表4.1  常见三种姿态表示方式部分对比 || 4.2.2  姿态表示方式}</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------表-----------------</Text>
+  </partName>
+</TableStyle>

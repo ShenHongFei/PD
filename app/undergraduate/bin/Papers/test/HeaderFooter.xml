@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HeaderFooter>
+  <partName name="提示名称">
+    <Text>-----------------页眉页脚-----------------</Text>
+  </partName>
+  <HeaderStyle name="页眉" />
+  <FooterStyle name="页脚" />
+  <spErroInfo name="特殊错误信息">
+    <Text>论文应设置奇偶页不同</Text>
+    <Text>缺少独创性声明页</Text>
+    <Text>奇数页页眉命名不规范应为：“大连理工大学专业学位硕士学位论文”||摘    要</Text>
+    <Text>偶数页页眉命名不规范，应为论文中文题目||摘    要</Text>
+    <Text>奇数页页眉命名不规范应为：“大连理工大学专业学位硕士学位论文”||摘    要</Text>
+    <Text>偶数页页眉命名不规范，应为论文中文题目||摘    要</Text>
+  </spErroInfo>
+</HeaderFooter>

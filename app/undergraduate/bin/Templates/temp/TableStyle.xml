@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TableStyle>
+  <spErroInfo name="特殊错误信息">
+    <Text>不是三线表：{表2.2  统计表||2.2.1  表的格式示例}</Text>
+    <Text>不是三线表：{表2.3  分栏表||2.2.1  表的格式示例}</Text>
+    <Text>某处表名不存在或者不在表格前一段：{参 考 文 献之后的第1个表}</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------表-----------------</Text>
+  </partName>
+</TableStyle>

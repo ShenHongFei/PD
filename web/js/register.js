@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 
   $('#user').bind('change', function() {
-    if ($('#user').val().length != 9 || !$.isNumeric($('#user').val()) || parseInt($('#user').val()) < 201000000 || parseInt($('#user').val()) > 206000000) {
+    if (!check_student_id($('#user').val())) {
       $('#user').popover('show');
     } else {
       $('#user').popover('hide');
@@ -107,16 +107,11 @@ $(document).ready(function() {
     if ($('#myname').val().length > 10 || $('#myname').val().length == 0) {
       $('#myname').css('border-color', 'red');
     }
-    if ($('#user').val().length != 9 || !$.isNumeric($('#user').val()) || parseInt($('#user').val()) < 200000000 || parseInt($('#user').val()) > 206000000) {
+    if (!check_student_id($('#user').val())) {
       $('#user').css('border-color', 'red');
     }
     if (flag1 == 0) {
       $('#mail').css('border-color', 'red');
-    }
-    if ($('#user').val() == '201612345') {
-      alertWarning("学号已注册，请直接登录");
-      $('#myname,#myclass,#user,#pwd1,#pwd2').val('');
-      return;
     }
 
     if ($('#pwd1').val().length < 6 || $('#pwd1').val().length > 20 || flag == 1) {
@@ -135,7 +130,7 @@ $(document).ready(function() {
       $('#pwd1').popover('show');
       $('#pwd2').popover('show');
     }
-    if ($('#myname').val().length > 10 || $('#myname').val().length == 0 || ($('#user').val().length != 9 || !$.isNumeric($('#user').val()) || parseInt($('#user').val()) < 200000000 || parseInt($('#user').val()) > 206000000) || ($('#pwd1').val().length < 6 || $('#pwd1').val().length > 20 || flag == 1) || $('#pwd2').val() != $('#pwd1').val() || $('#myclass').val().length != 4 || !$.isNumeric($('#myclass').val()) || parseInt($('#myclass').val()) < 1000 || parseInt($('#myclass').val()) > 6000 || flag1 == 0) {
+    if ($('#myname').val().length > 10 || $('#myname').val().length == 0 || (!check_student_id($('#user').val())) || ($('#pwd1').val().length < 6 || $('#pwd1').val().length > 20 || flag == 1) || $('#pwd2').val() != $('#pwd1').val() || $('#myclass').val().length != 4 || !$.isNumeric($('#myclass').val()) || parseInt($('#myclass').val()) < 1000 || parseInt($('#myclass').val()) > 6000 || flag1 == 0) {
       alertWarning('您输入的信息有误！');
       return;
     }
@@ -182,4 +177,8 @@ function loadlater() {
     window.location.href = '/PaperDetect/security.html';
   } else
     window.location.href = '/PaperDetect/login.html';
+}
+
+function check_student_id(sid){
+    return /20?(0|1|2|3|4)\d{5,6}/.test(sid)
 }

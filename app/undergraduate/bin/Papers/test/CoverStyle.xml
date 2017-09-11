@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CoverStyle>
+  <Text>红蚂蚁实验室提供技术支持</Text>
+  <Title name="标题">
+    <ENTitle name="论文英文标题" />
+  </Title>
+  <StudentInfo name="学生信息" />
+  <CoverLogo name="封面标注" />
+  <spErroInfo name="特殊错误信息">
+    <Text>封面大标题错误，应该为 专业学位硕士学位论文</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------封面-----------------</Text>
+  </partName>
+</CoverStyle>

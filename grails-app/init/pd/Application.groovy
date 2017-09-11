@@ -28,7 +28,7 @@ class Application extends GrailsAutoConfiguration {
     static{
         projectDir  =new File(System.properties['user.dir'] as String)
         println "当前路径： $projectDir.absolutePath"
-        binDir      =new File(projectDir,'bin')
+        binDir      =new File(projectDir,'app/postgraduate/PaperFormatDetection/bin/Debug')
         webDir      =new File(projectDir,'web')
         (dataDir    =new File(projectDir,'data')).mkdirs()
         (uploadDir  =new File(dataDir,'upload')).mkdirs()

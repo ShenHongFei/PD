@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Abstract>
+  <CNAbstractTitle name="中文摘要标题" />
+  <CNAbstractText name="中文摘要正文" />
+  <CNKeyWords name="中文摘要关键词" />
+  <ENAbstractTitle name="英文摘要标题" />
+  <ENAbstractText name="英文摘要正文" />
+  <ENKeyWords name="英文摘要关键词" />
+  <spErroInfo name="特殊错误信息">
+    <Text>中文摘要字数应在400-500字之间</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------摘要-----------------</Text>
+  </partName>
+</Abstract>

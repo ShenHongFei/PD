@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<References>
+  <ReferencesTitle name="参考文献标题" />
+  <spErroInfo name="特殊错误信息">
+    <Text>此条参考文献字体错误，应为中文宋体，英文Times New Roman：{[1] Wikipe}</Text>
+    <Text>此条参考文献字体错误，应为中文宋体，英文Times New Roman：{[3] Wikipe}</Text>
+    <Text>此条参考文献字体错误，应为中文宋体，英文Times New Roman：{[4] Wikipe}</Text>
+    <Text>日期前缺少标点符号“，”{ W. F. Aba}</Text>
+    <Text>建议参考文献的结尾用“.”号{ W. F. Aba}</Text>
+    <Text>日期前缺少标点符号“，”{ S. N. Pat}</Text>
+    <Text>建议参考文献的结尾用“.”号{ S. N. Pat}</Text>
+    <Text>缺少出版社（者）或者出版社前缺少标点符号“：”{ Renaldas }</Text>
+    <Text>日期前缺少标点符号“，”{ Renaldas }</Text>
+    <Text>建议参考文献的结尾用“.”号{ He Jin, H}</Text>
+    <Text>日期前缺少标点符号“，”{ 刘杰. H.264}</Text>
+    <Text>不能缺少院系{ 刘杰. H.264}</Text>
+    <Text>期刊类参考文献页码前应有期号，格式为“(number)”：{[20] 段学东,何}</Text>
+    <Text>学院院系前缺少标点符号“：”{ 张龙龙.基于ios}</Text>
+    <Text>不能缺少院系{ 张龙龙.基于ios}</Text>
+    <Text>学院院系前缺少标点符号“：”{ 韩海宏.基于iOS}</Text>
+    <Text>日期前缺少标点符号“，”{ 韩海宏.基于iOS}</Text>
+    <Text>不能缺少院系{ 韩海宏.基于iOS}</Text>
+    <Text>日期前缺少标点符号“，”{ M. R. Zak}</Text>
+    <Text>期刊数量少于10篇</Text>
+    <Text>正文中缺少参考文献角标，请补全</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------参考文献-----------------</Text>
+  </partName>
+</References>

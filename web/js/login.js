@@ -38,7 +38,7 @@ $(document).ready(function() {
 
       $("#user").attr("data-content","这里不可以空着哦~");
       $('#user').popover('show');
-    } else if(!(/20(0|1|2|3|4)\d{6}/).test($('#user').val())) {
+    } else if(!check_student_id($('#user').val())) {
       $('#user').attr('data-content',"您的学号格式不对哦~");
       $('#user').popover('show');
     } else {
@@ -81,8 +81,8 @@ $(document).ready(function() {
         }
         alertWarning("内容不可以为空！");
         return;
-      }else if(!(/20(0|1|2|3|4)\d{6}/).test($('#user').val())||!(/[0-9a-zA-Z]{5,20}/).test($('#pwd2').val())){
-        if(!(/20(0|1|2|3|4)\d{6}/).test($('#user').val())){
+      }else if(!check_student_id($('#user').val())||!(/[0-9a-zA-Z]{5,20}/).test($('#pwd2').val())){
+        if(!check_student_id($('#user').val())){
           $('#user').css('border-color', 'red');
         }
         if (!(/[0-9a-zA-Z]{5,20}/).test($('#pwd2').val())) {
@@ -157,3 +157,7 @@ $(document).ready(function() {
     }
    
   });
+
+function check_student_id(sid){
+    return /20?(0|1|2|3|4)\d{5,6}/.test(sid)
+}

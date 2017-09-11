@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Contents>
+  <ContentsTitle name="目录标题" />
+  <ContentsText name="目录内容" />
+  <spErroInfo name="特殊错误信息" />
+  <partName name="提示名称">
+    <Text>-----------------目录-----------------</Text>
+  </partName>
+</Contents>

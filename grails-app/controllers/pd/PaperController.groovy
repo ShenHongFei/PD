@@ -22,6 +22,7 @@ class PaperController {
     
     @SuppressWarnings("GroovyUnnecessaryReturn")
     def detect(){
+        
         def paperFile = params.paper as MultipartFile
         if(!paperFile||paperFile.empty||!paperFile.originalFilename.endsWith('.docx')) return render('无上传论文或论文格式不正确')
         def student = session.student
@@ -109,14 +110,15 @@ class PaperController {
             def start=System.currentTimeMillis()
             
             Files.copy(original.toPath(),tempPaper.toPath(),StandardCopyOption.REPLACE_EXISTING)
-            Files.copy(Paths.get("$binDir\\template.docx"),tempTemplate.toPath())
+            Files.copy(Paths.get("$binDir\\temp.docx"),tempTemplate.toPath())
             //路径不能包含空格
-            String command="$binDir\\PaperFormatDetection.exe $tempTemplate $tempPaper false"
-            println "论文检测命令行:\n$command"
+            String command="$binDir\\PaperFormatDetection.exe $tempTemplate $tempPaper false 1 false"
+//     本科生命令行       String command="$binDir\\PaperFormatDetection.exe $tempTemplate $tempPaper false"
+            println "论文检测命令行:\n$command" 
             ps=command.execute(null as List,binDir)
             ps.waitForOrKill(25*1000)
             
-            if(ps.exitValue()==0){
+            if(ps.exitValue()==0&&targetReport.exists()){
                 println ps.inputStream.getText('gbk')
                 
                 // todo:！！！！还需要理解一下！！

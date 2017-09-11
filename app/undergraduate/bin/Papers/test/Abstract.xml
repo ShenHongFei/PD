@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Abstract>
+  <spErroInfo name="特殊错误信息">
+    <Text>英文摘要上方缺少论文英文题目，或者与封面的英文标题书写不一致</Text>
+    <Text>英文摘要“Abstract”字体错误</Text>
+    <Text>英文摘要关键词应使用英文分号</Text>
+  </spErroInfo>
+  <partName name="提示名称">
+    <Text>-----------------摘要-----------------</Text>
+  </partName>
+</Abstract>
