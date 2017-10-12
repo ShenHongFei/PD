@@ -27,7 +27,7 @@
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>dll\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -36,11 +36,11 @@
     </Reference>
     <Reference Include="saxon9, Version=9.1.0.8, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\saxon9.dll</HintPath>
+      <HintPath>dll\saxon9.dll</HintPath>
     </Reference>
     <Reference Include="saxon9api, Version=9.1.0.8, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\saxon9api.dll</HintPath>
+      <HintPath>dll\saxon9api.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

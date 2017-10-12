@@ -13,7 +13,8 @@ class AuthorizationInterceptor {
     boolean before() {
         def uri = URLDecoder.decode(request.requestURI-request.contextPath,'UTF-8')
         try{
-            if(!uri.split('/')[-1].contains('.')){
+            def last = uri.split('/')[-1]
+            if(!last.contains('.')&&last!='status'){
                 println "API=\t$uri"
             }
         }catch(any){}

@@ -12,10 +12,14 @@ import static pd.Application.reportDir
 
 class Report implements Comparable<Report>{
     
+    static constraints = {
+        reportTmpFile(nullable: true)
+    }
+    static transients=['reportTmpFile']
+    
     String name
     Date createdAt
     Paper paper
-    
     
     @Transient
     File reportTmpFile
@@ -25,10 +29,6 @@ class Report implements Comparable<Report>{
         paper lazy: false
     }
     static fetchMode = [paper:'eager']
-    
-/*    static constraints = {}
-    
-    */
     
     Report(){}
     Report(Paper paper,File reportTmpFile){

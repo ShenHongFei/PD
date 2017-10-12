@@ -26,7 +26,6 @@ class ResourceController{
             println "DATA-URI=\t$dataUri"
             resource=new File(dataDir,dataUri)
         }else{
-            println "WEB-URI=\t$uri"
             resource=new File(webDir,uri)
         }
         if(!resource.exists()||resource.directory) {

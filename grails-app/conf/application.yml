@@ -1,6 +1,6 @@
 server:
     contextPath: /PaperDetect
-    port: 80
+    port: 8080
     compression:
         enabled: true
     tomcat:
