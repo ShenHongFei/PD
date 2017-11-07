@@ -30,8 +30,9 @@
 
 1.  下载构建好的压缩包 [https://github.com/ShenHongFei/PD/releases/download/stable/PaperDetect-2017-10-12.zip](https://github.com/ShenHongFei/PD/releases/download/stable/PaperDetect-2017-10-12.zip)
 2.  解压至英文、无空格目录（本地应用不支持）
-3.  运行 `run-8080-port.ps1` 或者 在终端中执行 `java -jar -Dfile.encoding=UTF-8 -Dserver.port=8080 PD.jar`
+3.  运行 `run-8080-port.ps1` (Y允许执行) 或者 在终端中执行 `java -jar -Dfile.encoding=UTF-8 -Dserver.port=8080 PD.jar`
 4.  打开网页 [http://localhost:8080/PaperDetect](http://localhost:8080/PaperDetect)
+5.  注册学生账号后即可上传论文检测
 
 ## 开发指南
 

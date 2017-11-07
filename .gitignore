@@ -1,5 +1,6 @@
 PD.iml
 .idea
+.gradle
 build/
 src/
 data/
